@@ -1,0 +1,1 @@
+"""Scripted, headless Matplotlib diagnostics."""

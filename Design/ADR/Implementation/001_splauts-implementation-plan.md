@@ -1,6 +1,6 @@
 # Implementation Plan: Neural Acoustic Splauts — CPU Prototype
 
-**Status:** Proposed  
+**Status:** Implemented — CPU prototype
 **Related decision:** ADR-001 — Neural Spectrotemporal Splauts for Bioacoustic Localization  
 **Scope:** Small PyTorch prototype for visualization, experimentation, and validation.
 
@@ -195,3 +195,28 @@ The prototype is complete when it can:
 **Out of scope:** production inference, real-world clock calibration, learned propagation, automatic event discovery, large-scale datasets, and GPU optimization.
 
 The intended outcome is a small, understandable research prototype that tests whether neural splauts provide a useful representation for differentiable bioacoustic localization.
+
+## 9. Implementation entry points
+
+The `splauts` Python package implements this plan. From the repository root:
+
+```powershell
+python -m pip install -e .
+python -m splauts demo --output outputs/single
+python -m splauts demo --events 2 --refine --output outputs/multi
+python -m splauts compare --output outputs/comparison
+python -m unittest discover -s tests -v
+```
+
+The explorer is implemented as reproducible scripts producing Matplotlib plots,
+JSON metrics, and a tensor bundle. See the [README](../../../README.md) for
+configuration, output descriptions, physical conventions, and limitations.
+Initial inversion uses known event associations and learned per-call embeddings;
+the default position-only run never uses a ground-truth position loss. Optional
+refinement progressively releases onset, amplitude, and embedding parameters.
+Multi-event demos use an optional reconstruction-only coordinate grid search to
+initialize positions before gradient refinement; disable it with
+`--coarse-grid-size 0` to explore direct-start local minima. Initialization is
+explicitly recorded in the experiment metrics.
+The comparison command varies geometry, noise, call family, and station count,
+with all primary evaluations retaining at least four stations.
