@@ -1,0 +1,586 @@
+{
+  "experiment": "Mixture-only shared neural splaut fitting",
+  "date": "2026-10-19",
+  "reproduce": "python -m splauts mixtures --output outputs/mixtures",
+  "protocol": {
+    "scene_seed": 7,
+    "fit_seed": 101,
+    "events": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "stations": [
+      4,
+      6,
+      8
+    ],
+    "config": {
+      "sample_rate": 8000,
+      "n_fft": 512,
+      "hop_length": 80,
+      "scene_duration": 2.4,
+      "call_duration": 0.4,
+      "area_size": 300.0,
+      "sound_speed": 343.0,
+      "distance_offset": 1.0,
+      "noise_std": 0.0,
+      "splauts": 32,
+      "latent_dim": 16,
+      "seed": 7
+    },
+    "warmup_steps": 250,
+    "mixture_steps": 400,
+    "geometry_only_steps": 75,
+    "proposal_grid_size": 13,
+    "proposal_bandwidth_hz": 500,
+    "cpu_threads": 4,
+    "python": "3.11.9",
+    "torch": "2.12.1+cpu",
+    "fitting_inputs": [
+      "station mixture power",
+      "station coordinates",
+      "time/frequency axes",
+      "call count"
+    ],
+    "withheld_during_fit": [
+      "source waveforms",
+      "source spectrograms",
+      "call identities",
+      "event associations",
+      "source positions",
+      "emission onsets",
+      "source amplitudes"
+    ],
+    "priors": "Supplied call count, common 0.4 s duration, geometry and propagation; fresh MLP per case",
+    "power_gauge": "Unit RMS decoded field on the event grid; learned positive RMS event power",
+    "objective": "0.5 station-balanced power NMSE + 0.5 square-root-power loss + 0.001 spectral extent prior",
+    "model_selection": "Minimum mixture objective only; no source-label selection"
+  },
+  "evaluation": {
+    "assignment": "Minimum total spatial distance over permutations, after fitting",
+    "localization_threshold_m": 10,
+    "source_error": "Normalized source power MSE on absolute emission-time axes, including inferred source scale",
+    "timing": "Absolute emission centroid errors; raw onset has a relative-time gauge"
+  },
+  "cases": [
+    {
+      "events": 2,
+      "stations": 4,
+      "position_errors_m": [
+        0.015159474685788155,
+        0.005826884880661964
+      ],
+      "mean_position_error_m": 0.01049317978322506,
+      "max_position_error_m": 0.015159474685788155,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.009053928777575493,
+      "compressed_loss": 0.020983245223760605,
+      "source_power_nmse": [
+        0.007585255894809961,
+        0.010726614855229855
+      ],
+      "mean_source_power_nmse": 0.009155935607850552,
+      "emission_centroid_errors_s": [
+        0.0027749240398406982,
+        0.0010985136032104492
+      ],
+      "mean_emission_centroid_error_s": 0.0019367188215255737,
+      "estimated_source_rms_power": [
+        0.9621715545654297,
+        0.926161527633667
+      ],
+      "best_step": 400,
+      "fit_seconds": 14.660308599995915
+    },
+    {
+      "events": 2,
+      "stations": 6,
+      "position_errors_m": [
+        0.016784092411398888,
+        0.0036629356909543276
+      ],
+      "mean_position_error_m": 0.010223514400422573,
+      "max_position_error_m": 0.016784092411398888,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.009627227671444416,
+      "compressed_loss": 0.02645823359489441,
+      "source_power_nmse": [
+        0.012268400751054287,
+        0.007572355680167675
+      ],
+      "mean_source_power_nmse": 0.009920378215610981,
+      "emission_centroid_errors_s": [
+        0.0012689530849456787,
+        0.0012012124061584473
+      ],
+      "mean_emission_centroid_error_s": 0.001235082745552063,
+      "estimated_source_rms_power": [
+        0.9653894901275635,
+        0.9234111309051514
+      ],
+      "best_step": 398,
+      "fit_seconds": 12.175232700014021
+    },
+    {
+      "events": 2,
+      "stations": 8,
+      "position_errors_m": [
+        0.005540017504245043,
+        0.0021904867608100176
+      ],
+      "mean_position_error_m": 0.003865252248942852,
+      "max_position_error_m": 0.005540017504245043,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.008577113039791584,
+      "compressed_loss": 0.021948684006929398,
+      "source_power_nmse": [
+        0.009419150650501251,
+        0.007880812510848045
+      ],
+      "mean_source_power_nmse": 0.008649981580674648,
+      "emission_centroid_errors_s": [
+        0.00231093168258667,
+        0.0008705258369445801
+      ],
+      "mean_emission_centroid_error_s": 0.001590728759765625,
+      "estimated_source_rms_power": [
+        0.9654279947280884,
+        0.9251449704170227
+      ],
+      "best_step": 398,
+      "fit_seconds": 13.495989900024142
+    },
+    {
+      "events": 3,
+      "stations": 4,
+      "position_errors_m": [
+        0.016463130712509155,
+        0.020420096814632416,
+        91.59896087646484
+      ],
+      "mean_position_error_m": 30.54528045654297,
+      "max_position_error_m": 91.59896087646484,
+      "fraction_within_10m": 0.6666666865348816,
+      "power_nmse": 0.015274103730916977,
+      "compressed_loss": 0.050076670944690704,
+      "source_power_nmse": [
+        0.01743115484714508,
+        0.004981647711247206,
+        1.0286509990692139
+      ],
+      "mean_source_power_nmse": 0.3503545820713043,
+      "emission_centroid_errors_s": [
+        0.014542430639266968,
+        0.0010519623756408691,
+        0.11067461967468262
+      ],
+      "mean_emission_centroid_error_s": 0.04208967089653015,
+      "estimated_source_rms_power": [
+        0.9627461433410645,
+        0.9197648763656616,
+        0.03689194470643997
+      ],
+      "best_step": 400,
+      "fit_seconds": 12.187169199984055
+    },
+    {
+      "events": 3,
+      "stations": 6,
+      "position_errors_m": [
+        0.06899505108594894,
+        0.02219751663506031,
+        53.46339416503906
+      ],
+      "mean_position_error_m": 17.851530075073242,
+      "max_position_error_m": 53.46339416503906,
+      "fraction_within_10m": 0.6666666865348816,
+      "power_nmse": 0.03683409094810486,
+      "compressed_loss": 0.05087224021553993,
+      "source_power_nmse": [
+        0.058807678520679474,
+        0.007174866273999214,
+        0.9469063878059387
+      ],
+      "mean_source_power_nmse": 0.33762964606285095,
+      "emission_centroid_errors_s": [
+        0.016147255897521973,
+        0.001446545124053955,
+        0.09091061353683472
+      ],
+      "mean_emission_centroid_error_s": 0.036168139427900314,
+      "estimated_source_rms_power": [
+        0.9666467905044556,
+        0.8939809203147888,
+        0.04264361783862114
+      ],
+      "best_step": 400,
+      "fit_seconds": 13.884064800047781
+    },
+    {
+      "events": 3,
+      "stations": 8,
+      "position_errors_m": [
+        0.011063211597502232,
+        0.007798558566719294,
+        36.75144577026367
+      ],
+      "mean_position_error_m": 12.256770133972168,
+      "max_position_error_m": 36.75144577026367,
+      "fraction_within_10m": 0.6666666865348816,
+      "power_nmse": 0.019334537908434868,
+      "compressed_loss": 0.046646252274513245,
+      "source_power_nmse": [
+        0.02519572339951992,
+        0.021501092240214348,
+        1.832198977470398
+      ],
+      "mean_source_power_nmse": 0.6262986063957214,
+      "emission_centroid_errors_s": [
+        0.021160364151000977,
+        0.0008445382118225098,
+        0.24002903699874878
+      ],
+      "mean_emission_centroid_error_s": 0.08734464645385742,
+      "estimated_source_rms_power": [
+        0.9556618928909302,
+        0.8266606330871582,
+        0.13343581557273865
+      ],
+      "best_step": 398,
+      "fit_seconds": 15.597928599978331
+    },
+    {
+      "events": 4,
+      "stations": 4,
+      "position_errors_m": [
+        0.10381057113409042,
+        0.060473475605249405,
+        181.92234802246094,
+        0.17571280896663666
+      ],
+      "mean_position_error_m": 45.565589904785156,
+      "max_position_error_m": 181.92234802246094,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.04254906624555588,
+      "compressed_loss": 0.06025056540966034,
+      "source_power_nmse": [
+        0.018028637394309044,
+        0.06522753834724426,
+        1.1584827899932861,
+        0.04198576882481575
+      ],
+      "mean_source_power_nmse": 0.32093116641044617,
+      "emission_centroid_errors_s": [
+        0.02367129921913147,
+        0.0023927688598632812,
+        0.40369611978530884,
+        0.0037181973457336426
+      ],
+      "mean_emission_centroid_error_s": 0.10836959630250931,
+      "estimated_source_rms_power": [
+        0.9281326532363892,
+        1.0649080276489258,
+        0.9207238554954529,
+        0.052346017211675644
+      ],
+      "best_step": 399,
+      "fit_seconds": 13.638158999965526
+    },
+    {
+      "events": 4,
+      "stations": 6,
+      "position_errors_m": [
+        0.12988443672657013,
+        0.0410333052277565,
+        103.51324462890625,
+        0.015085428021848202
+      ],
+      "mean_position_error_m": 25.92481231689453,
+      "max_position_error_m": 103.51324462890625,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.053397830575704575,
+      "compressed_loss": 0.07015224546194077,
+      "source_power_nmse": [
+        0.08552494645118713,
+        0.09072838723659515,
+        19.44795799255371,
+        0.2582569122314453
+      ],
+      "mean_source_power_nmse": 4.970617294311523,
+      "emission_centroid_errors_s": [
+        0.021798938512802124,
+        0.0001531839370727539,
+        0.1205320954322815,
+        0.0065770745277404785
+      ],
+      "mean_emission_centroid_error_s": 0.03726532310247421,
+      "estimated_source_rms_power": [
+        0.9134640693664551,
+        0.6680763959884644,
+        0.8792804479598999,
+        0.5655890703201294
+      ],
+      "best_step": 400,
+      "fit_seconds": 15.209190300025512
+    },
+    {
+      "events": 4,
+      "stations": 8,
+      "position_errors_m": [
+        0.12193086743354797,
+        0.043634045869112015,
+        103.52272033691406,
+        0.005621766205877066
+      ],
+      "mean_position_error_m": 25.923477172851562,
+      "max_position_error_m": 103.52272033691406,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.05776047706604004,
+      "compressed_loss": 0.0711522176861763,
+      "source_power_nmse": [
+        0.08010230213403702,
+        0.09080714732408524,
+        20.206768035888672,
+        0.26888370513916016
+      ],
+      "mean_source_power_nmse": 5.161640167236328,
+      "emission_centroid_errors_s": [
+        0.02294418215751648,
+        0.0002766251564025879,
+        0.11631196737289429,
+        0.008237600326538086
+      ],
+      "mean_emission_centroid_error_s": 0.03694259375333786,
+      "estimated_source_rms_power": [
+        0.9129639267921448,
+        0.7130183577537537,
+        0.8809661269187927,
+        0.5772759914398193
+      ],
+      "best_step": 400,
+      "fit_seconds": 16.016505799954757
+    },
+    {
+      "events": 5,
+      "stations": 4,
+      "position_errors_m": [
+        0.11654379218816757,
+        0.04188266396522522,
+        114.32332611083984,
+        0.2775093913078308,
+        0.12067721039056778
+      ],
+      "mean_position_error_m": 22.975988388061523,
+      "max_position_error_m": 114.32332611083984,
+      "fraction_within_10m": 0.800000011920929,
+      "power_nmse": 0.06645873188972473,
+      "compressed_loss": 0.08425527811050415,
+      "source_power_nmse": [
+        0.043959375470876694,
+        0.17816109955310822,
+        1.247986078262329,
+        0.01177411898970604,
+        0.058638326823711395
+      ],
+      "mean_source_power_nmse": 0.3081037998199463,
+      "emission_centroid_errors_s": [
+        0.024263352155685425,
+        0.0010856389999389648,
+        0.7086065411567688,
+        0.0004559159278869629,
+        0.0024154186248779297
+      ],
+      "mean_emission_centroid_error_s": 0.14736536145210266,
+      "estimated_source_rms_power": [
+        1.1350082159042358,
+        0.8565798401832581,
+        0.7181528806686401,
+        0.903344452381134,
+        0.06563356518745422
+      ],
+      "best_step": 399,
+      "fit_seconds": 15.631239499954972
+    },
+    {
+      "events": 5,
+      "stations": 6,
+      "position_errors_m": [
+        0.13035042583942413,
+        0.01371929980814457,
+        196.12269592285156,
+        0.1351252794265747,
+        0.07232100516557693
+      ],
+      "mean_position_error_m": 39.29484176635742,
+      "max_position_error_m": 196.12269592285156,
+      "fraction_within_10m": 0.800000011920929,
+      "power_nmse": 0.13422457873821259,
+      "compressed_loss": 0.12953417003154755,
+      "source_power_nmse": [
+        0.08516880124807358,
+        0.3417668342590332,
+        2.635815382003784,
+        0.014988720417022705,
+        0.05364127457141876
+      ],
+      "mean_source_power_nmse": 0.6262761950492859,
+      "emission_centroid_errors_s": [
+        0.018781304359436035,
+        0.0018056631088256836,
+        0.05758899450302124,
+        0.003777801990509033,
+        0.0009549856185913086
+      ],
+      "mean_emission_centroid_error_s": 0.01658174954354763,
+      "estimated_source_rms_power": [
+        1.0986285209655762,
+        0.7535352110862732,
+        0.850248396396637,
+        0.7790824770927429,
+        0.1688162386417389
+      ],
+      "best_step": 399,
+      "fit_seconds": 17.669101700012106
+    },
+    {
+      "events": 5,
+      "stations": 8,
+      "position_errors_m": [
+        0.08251000195741653,
+        0.040468256920576096,
+        103.45946502685547,
+        0.1233886331319809,
+        0.10082995891571045
+      ],
+      "mean_position_error_m": 20.761333465576172,
+      "max_position_error_m": 103.45946502685547,
+      "fraction_within_10m": 0.800000011920929,
+      "power_nmse": 0.06851338595151901,
+      "compressed_loss": 0.06695933640003204,
+      "source_power_nmse": [
+        0.083037368953228,
+        0.0918780043721199,
+        22.996559143066406,
+        0.2763635218143463,
+        0.03553164005279541
+      ],
+      "mean_source_power_nmse": 4.69667387008667,
+      "emission_centroid_errors_s": [
+        0.017593860626220703,
+        0.0002796649932861328,
+        0.12316316366195679,
+        0.006044924259185791,
+        0.00014770030975341797
+      ],
+      "mean_emission_centroid_error_s": 0.029445862397551537,
+      "estimated_source_rms_power": [
+        0.6335052847862244,
+        0.9100823402404785,
+        0.8756823539733887,
+        0.7715908885002136,
+        0.6181468963623047
+      ],
+      "best_step": 398,
+      "fit_seconds": 19.0271064999979
+    }
+  ],
+  "conclusions": [
+    "Both calls localize within 0.02 m for all station counts in the two-call scene.",
+    "Exactly one source is missed in each 3/4/5-call case: the weak pulse call, shared across these nested scenes.",
+    "All tonal and sweep sources localize within 0.28 m; more stations alone did not resolve the weak pulse failure.",
+    "Mixture NMSE ranges from 0.0086 to 0.1342, while mean source-field NMSE reaches 5.16: mixture reconstruction is not proof of correct unmixing.",
+    "One noiseless seed with perfect synchronization and supplied count/duration priors; this is a diagnostic, not a broad accuracy benchmark."
+  ],
+  "first_pass": {
+    "archive": "outputs/mixtures_first_pass",
+    "description": "Initial fixed event-power/shared decoder-scale formulation with grid endpoints; unstable weak-candidate scales. Preserved rather than discarded.",
+    "cases": [
+      {
+        "events": 2,
+        "stations": 4,
+        "mean_position_error_m": 0.016913678497076035,
+        "power_nmse": 0.00633739959448576,
+        "initial_power_nmse": 0.36278676986694336
+      },
+      {
+        "events": 2,
+        "stations": 6,
+        "mean_position_error_m": 0.013078205287456512,
+        "power_nmse": 0.011658784002065659,
+        "initial_power_nmse": 0.3491326868534088
+      },
+      {
+        "events": 2,
+        "stations": 8,
+        "mean_position_error_m": 0.00925607793033123,
+        "power_nmse": 0.009984675794839859,
+        "initial_power_nmse": 0.32573238015174866
+      },
+      {
+        "events": 3,
+        "stations": 4,
+        "mean_position_error_m": 88.7595443725586,
+        "power_nmse": 0.9111036658287048,
+        "initial_power_nmse": 5937.4375
+      },
+      {
+        "events": 3,
+        "stations": 6,
+        "mean_position_error_m": 100.64225006103516,
+        "power_nmse": 0.9628279209136963,
+        "initial_power_nmse": 5458.783203125
+      },
+      {
+        "events": 3,
+        "stations": 8,
+        "mean_position_error_m": 60.80057907104492,
+        "power_nmse": 0.19703179597854614,
+        "initial_power_nmse": 981.1497802734375
+      },
+      {
+        "events": 4,
+        "stations": 4,
+        "mean_position_error_m": 72.85903930664062,
+        "power_nmse": 1.010420560836792,
+        "initial_power_nmse": 1640.24560546875
+      },
+      {
+        "events": 4,
+        "stations": 6,
+        "mean_position_error_m": 37.83832550048828,
+        "power_nmse": 0.14042766392230988,
+        "initial_power_nmse": 102.90373992919922
+      },
+      {
+        "events": 4,
+        "stations": 8,
+        "mean_position_error_m": 25.917165756225586,
+        "power_nmse": 0.07986016571521759,
+        "initial_power_nmse": 0.34613850712776184
+      },
+      {
+        "events": 5,
+        "stations": 4,
+        "mean_position_error_m": 83.97820281982422,
+        "power_nmse": 0.9508112668991089,
+        "initial_power_nmse": 11761.37890625
+      },
+      {
+        "events": 5,
+        "stations": 6,
+        "mean_position_error_m": 47.098548889160156,
+        "power_nmse": 0.9725443720817566,
+        "initial_power_nmse": 1263.6424560546875
+      },
+      {
+        "events": 5,
+        "stations": 8,
+        "mean_position_error_m": 23.081972122192383,
+        "power_nmse": 0.1181507408618927,
+        "initial_power_nmse": 0.41810694336891174
+      }
+    ]
+  }
+}

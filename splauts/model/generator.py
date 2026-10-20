@@ -70,10 +70,22 @@ class SplautGenerator(nn.Module):
         self.intensity_scale.copy_(power.max().clamp_min(1e-8))
 
 
+def gaussian_kernel(standardized: Tensor) -> Tensor:
+    """Unit Gaussian, dropping tails below exp(-80) ≈ 1.8e-35.
+
+    Clamping before exp avoids slow CPU underflow paths even with denormal
+    flushing enabled. Values and gradients inside 12.6 sigma are unchanged;
+    the removed tails are far below float32 precision relative to the peak
+    and far below our loss floors.
+    """
+    exponent = -0.5 * standardized.square()
+    return exponent.clamp_min(-80).exp() * (exponent >= -80)
+
+
 def evaluate_field(splauts: Splauts, times: Tensor, frequencies: Tensor) -> Tensor:
     """Evaluate K fields on shared axes, returning [events, time, frequency]."""
-    temporal = torch.exp(-0.5 * ((times[None, :, None] - splauts.time[:, None, :])
-                                 / splauts.time_width[:, None, :]).square())
-    spectral = torch.exp(-0.5 * ((frequencies[None, :, None] - splauts.frequency[:, None, :])
-                                 / splauts.frequency_width[:, None, :]).square())
+    temporal = gaussian_kernel((times[None, :, None] - splauts.time[:, None, :])
+                                / splauts.time_width[:, None, :])
+    spectral = gaussian_kernel((frequencies[None, :, None] - splauts.frequency[:, None, :])
+                                / splauts.frequency_width[:, None, :])
     return torch.einsum("ktn,kfn->ktf", temporal * splauts.weight[:, None, :], spectral)

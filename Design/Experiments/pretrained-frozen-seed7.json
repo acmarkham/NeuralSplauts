@@ -1,0 +1,694 @@
+{
+  "experiment": "Supervised isolated-call pretraining and frozen-prior mixture localization",
+  "date": "2026-10-19",
+  "reproduce": "python -m splauts pretrained --output outputs/pretrained",
+  "protocol": {
+    "scene_seed": 7,
+    "pretraining_seed": 23,
+    "validation_seed": 29,
+    "config": {
+      "sample_rate": 8000,
+      "n_fft": 512,
+      "hop_length": 80,
+      "scene_duration": 2.4,
+      "call_duration": 0.4,
+      "area_size": 300.0,
+      "sound_speed": 343.0,
+      "distance_offset": 1.0,
+      "noise_std": 0.0,
+      "splauts": 32,
+      "latent_dim": 16,
+      "seed": 7
+    },
+    "training_examples": 96,
+    "validation_examples": 24,
+    "pretrain_steps": 2000,
+    "mixture_steps": 400,
+    "proposal_refinement_steps": 80,
+    "proposal_grid_size": 25,
+    "template_frequency_step_hz": 25.0,
+    "template_count": 690,
+    "cpu_threads": 4,
+    "python": "3.11.9",
+    "torch": "2.12.1+cpu",
+    "model": "CallPriorGenerator: shared MLP, bounded acoustic codes, frequency-relative Gaussian centres, unit RMS fields",
+    "acoustic_ranges": [
+      [
+        800.0,
+        2500.0
+      ],
+      [
+        100.0,
+        500.0
+      ],
+      [
+        2.0,
+        8.0
+      ],
+      [
+        12.0,
+        20.0
+      ]
+    ],
+    "decoder_fingerprint": "b6e4bb69f92d19f3a624185c008c72a6ff7de9978998fc5120c82cdefa912e6a",
+    "inversion_trainable_parameters": [
+      "position",
+      "onset",
+      "RMS power",
+      "frequency",
+      "bandwidth",
+      "modulation rate",
+      "pulse rate"
+    ],
+    "decoder_trainable_parameters": 0,
+    "family_selection": "Neural template matching using mixtures, then fixed during continuous refinement",
+    "priors": "Supplied event count and 0.4 s common duration; known station geometry and propagation",
+    "inversion_excludes": [
+      "test isolated calls",
+      "test acoustic parameters/codes",
+      "test call identities/associations",
+      "test positions/onsets/amplitudes"
+    ],
+    "model_selection": "Minimum mixture objective only; no test-label model selection",
+    "checkpoint": "outputs/pretrained/prior.pt",
+    "pretraining_details": "outputs/pretrained/pretraining.json"
+  },
+  "representation": {
+    "mean_training_shape_nmse": 0.006930212794941326,
+    "mean_independent_validation_shape_nmse": 0.0172063455490085,
+    "validation_shape_nmse_by_family": {
+      "tonal": 0.03960965760052204,
+      "sweep": 0.003823676030151546,
+      "pulse": 0.008185703016351908
+    },
+    "validation_uses_known_acoustic_codes": true,
+    "validation_selects_checkpoint": false
+  },
+  "freeze_audit": {
+    "all_12_decoder_checksums_unchanged": true,
+    "all_12_test_call_sets_disjoint_from_training": true,
+    "decoder_gradients_accumulated": false
+  },
+  "evaluation": {
+    "assignment": "Minimum total spatial distance over permutations, after inversion",
+    "localization_threshold_m": 10,
+    "source_error": "Normalized source-power MSE on absolute emission-time axes",
+    "localized_sources": 33,
+    "total_sources": 42,
+    "baseline_localized_sources": 33
+  },
+  "cases": [
+    {
+      "events": 2,
+      "stations": 4,
+      "position_errors_m": [
+        0.003053407184779644,
+        0.0001223084982484579
+      ],
+      "mean_position_error_m": 0.001587857841514051,
+      "max_position_error_m": 0.003053407184779644,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.009950356557965279,
+      "compressed_loss": 0.01701304502785206,
+      "source_power_nmse": [
+        0.018544379621744156,
+        0.0018000479321926832
+      ],
+      "mean_source_power_nmse": 0.010172213427722454,
+      "emission_centroid_errors_s": [
+        0.000996023416519165,
+        0.00035822391510009766
+      ],
+      "mean_emission_centroid_error_s": 0.0006771236658096313,
+      "estimated_source_rms_power": [
+        0.9150372743606567,
+        0.9720904231071472
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep"
+      ],
+      "bank_indices": [
+        412,
+        245
+      ],
+      "best_step": 317,
+      "fit_seconds": 9.605140700004995,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 2,
+      "stations": 6,
+      "position_errors_m": [
+        0.005299107637256384,
+        0.00010235906665911898
+      ],
+      "mean_position_error_m": 0.0027007332537323236,
+      "max_position_error_m": 0.005299107637256384,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.009921967051923275,
+      "compressed_loss": 0.016991935670375824,
+      "source_power_nmse": [
+        0.018543938174843788,
+        0.0017966902814805508
+      ],
+      "mean_source_power_nmse": 0.010170314460992813,
+      "emission_centroid_errors_s": [
+        0.001001983880996704,
+        0.00035631656646728516
+      ],
+      "mean_emission_centroid_error_s": 0.0006791502237319946,
+      "estimated_source_rms_power": [
+        0.9150139689445496,
+        0.9720963835716248
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep"
+      ],
+      "bank_indices": [
+        412,
+        255
+      ],
+      "best_step": 369,
+      "fit_seconds": 11.728091099997982,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 2,
+      "stations": 8,
+      "position_errors_m": [
+        0.004871743265539408,
+        0.000229008961468935
+      ],
+      "mean_position_error_m": 0.0025503761135041714,
+      "max_position_error_m": 0.004871743265539408,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.009930151514708996,
+      "compressed_loss": 0.01702418178319931,
+      "source_power_nmse": [
+        0.01854552887380123,
+        0.0018003246514126658
+      ],
+      "mean_source_power_nmse": 0.01017292682081461,
+      "emission_centroid_errors_s": [
+        0.0009964406490325928,
+        0.0003635883331298828
+      ],
+      "mean_emission_centroid_error_s": 0.0006800144910812378,
+      "estimated_source_rms_power": [
+        0.9149972200393677,
+        0.9720884561538696
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep"
+      ],
+      "bank_indices": [
+        412,
+        245
+      ],
+      "best_step": 355,
+      "fit_seconds": 13.915170799999032,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 3,
+      "stations": 4,
+      "position_errors_m": [
+        0.0030810004100203514,
+        0.0077124726958572865,
+        14.444690704345703
+      ],
+      "mean_position_error_m": 4.81849479675293,
+      "max_position_error_m": 14.444690704345703,
+      "fraction_within_10m": 0.6666666865348816,
+      "power_nmse": 0.012399471364915371,
+      "compressed_loss": 0.02389216423034668,
+      "source_power_nmse": [
+        0.01853196509182453,
+        0.001894383691251278,
+        1.383615493774414
+      ],
+      "mean_source_power_nmse": 0.4680139720439911,
+      "emission_centroid_errors_s": [
+        0.0010073482990264893,
+        0.00019603967666625977,
+        0.016802966594696045
+      ],
+      "mean_emission_centroid_error_s": 0.006002118345350027,
+      "estimated_source_rms_power": [
+        0.9154424667358398,
+        0.9695513844490051,
+        0.11950825154781342
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "pulse"
+      ],
+      "bank_indices": [
+        412,
+        245,
+        298
+      ],
+      "best_step": 366,
+      "fit_seconds": 12.960346099978779,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 3,
+      "stations": 6,
+      "position_errors_m": [
+        0.005338837392628193,
+        0.23464523255825043,
+        64.54649353027344
+      ],
+      "mean_position_error_m": 21.595491409301758,
+      "max_position_error_m": 64.54649353027344,
+      "fraction_within_10m": 0.6666666865348816,
+      "power_nmse": 0.02054857835173607,
+      "compressed_loss": 0.06966019421815872,
+      "source_power_nmse": [
+        0.018531721085309982,
+        0.6445776224136353,
+        35.3122673034668
+      ],
+      "mean_source_power_nmse": 11.991791725158691,
+      "emission_centroid_errors_s": [
+        0.0010131299495697021,
+        0.0300978422164917,
+        0.12025755643844604
+      ],
+      "mean_emission_centroid_error_s": 0.050456177443265915,
+      "estimated_source_rms_power": [
+        0.9154136180877686,
+        0.7822601795196533,
+        0.21750108897686005
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "sweep"
+      ],
+      "bank_indices": [
+        412,
+        256,
+        235
+      ],
+      "best_step": 393,
+      "fit_seconds": 16.036393599992152,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 3,
+      "stations": 8,
+      "position_errors_m": [
+        0.004913258831948042,
+        0.005892723333090544,
+        0.16789017617702484
+      ],
+      "mean_position_error_m": 0.059565383940935135,
+      "max_position_error_m": 0.16789017617702484,
+      "fraction_within_10m": 1.0,
+      "power_nmse": 0.01113844197243452,
+      "compressed_loss": 0.017875202000141144,
+      "source_power_nmse": [
+        0.018532980233430862,
+        0.001816285657696426,
+        0.004194262437522411
+      ],
+      "mean_source_power_nmse": 0.008181176148355007,
+      "emission_centroid_errors_s": [
+        0.0010077953338623047,
+        0.00022029876708984375,
+        0.0006299614906311035
+      ],
+      "mean_emission_centroid_error_s": 0.000619351863861084,
+      "estimated_source_rms_power": [
+        0.9154042601585388,
+        0.9715442061424255,
+        0.128653421998024
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "pulse"
+      ],
+      "bank_indices": [
+        412,
+        255,
+        298
+      ],
+      "best_step": 360,
+      "fit_seconds": 19.089282299974002,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 4,
+      "stations": 4,
+      "position_errors_m": [
+        0.004075760953128338,
+        0.02778538689017296,
+        103.49762725830078,
+        0.06404315680265427
+      ],
+      "mean_position_error_m": 25.89838218688965,
+      "max_position_error_m": 103.49762725830078,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.013919549062848091,
+      "compressed_loss": 0.050897471606731415,
+      "source_power_nmse": [
+        0.018593303859233856,
+        0.001836900832131505,
+        37.62582015991211,
+        0.5070342421531677
+      ],
+      "mean_source_power_nmse": 9.538321495056152,
+      "emission_centroid_errors_s": [
+        0.0009522140026092529,
+        0.0005049705505371094,
+        0.12679767608642578,
+        0.005480170249938965
+      ],
+      "mean_emission_centroid_error_s": 0.03343375772237778,
+      "estimated_source_rms_power": [
+        0.797550618648529,
+        0.9740428328514099,
+        0.913611888885498,
+        0.33143916726112366
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "tonal",
+        "tonal"
+      ],
+      "bank_indices": [
+        533,
+        245,
+        412,
+        531
+      ],
+      "best_step": 389,
+      "fit_seconds": 15.338371699966956,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 4,
+      "stations": 6,
+      "position_errors_m": [
+        0.004077752586454153,
+        0.023939868435263634,
+        103.50366973876953,
+        0.0611332543194294
+      ],
+      "mean_position_error_m": 25.898204803466797,
+      "max_position_error_m": 103.50366973876953,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.012110150419175625,
+      "compressed_loss": 0.04754061996936798,
+      "source_power_nmse": [
+        0.018622880801558495,
+        0.001809757319279015,
+        37.43661117553711,
+        0.504604160785675
+      ],
+      "mean_source_power_nmse": 9.490411758422852,
+      "emission_centroid_errors_s": [
+        0.0009339749813079834,
+        0.0006624460220336914,
+        0.1264234185218811,
+        0.006249725818634033
+      ],
+      "mean_emission_centroid_error_s": 0.0335673913359642,
+      "estimated_source_rms_power": [
+        0.795489490032196,
+        0.9747288227081299,
+        0.9127663969993591,
+        0.33392539620399475
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "tonal",
+        "tonal"
+      ],
+      "bank_indices": [
+        533,
+        245,
+        412,
+        531
+      ],
+      "best_step": 397,
+      "fit_seconds": 20.511658500006888,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 4,
+      "stations": 8,
+      "position_errors_m": [
+        0.004663925617933273,
+        0.017237413674592972,
+        103.5064697265625,
+        0.04442889988422394
+      ],
+      "mean_position_error_m": 25.893199920654297,
+      "max_position_error_m": 103.5064697265625,
+      "fraction_within_10m": 0.75,
+      "power_nmse": 0.01417871005833149,
+      "compressed_loss": 0.04975702986121178,
+      "source_power_nmse": [
+        0.01860012300312519,
+        0.0037531410343945026,
+        37.55101013183594,
+        0.506083607673645
+      ],
+      "mean_source_power_nmse": 9.519862174987793,
+      "emission_centroid_errors_s": [
+        0.0009479820728302002,
+        0.00013816356658935547,
+        0.1268225908279419,
+        0.005409717559814453
+      ],
+      "mean_emission_centroid_error_s": 0.033329613506793976,
+      "estimated_source_rms_power": [
+        0.9746643304824829,
+        0.7967353463172913,
+        0.9134199619293213,
+        0.3322712779045105
+      ],
+      "inferred_families": [
+        "sweep",
+        "tonal",
+        "tonal",
+        "tonal"
+      ],
+      "bank_indices": [
+        256,
+        533,
+        412,
+        531
+      ],
+      "best_step": 392,
+      "fit_seconds": 24.419565899996087,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 5,
+      "stations": 4,
+      "position_errors_m": [
+        0.003231703769415617,
+        97.22019958496094,
+        119.03954315185547,
+        0.551116406917572,
+        0.26712197065353394
+      ],
+      "mean_position_error_m": 43.41624069213867,
+      "max_position_error_m": 119.03954315185547,
+      "fraction_within_10m": 0.6000000238418579,
+      "power_nmse": 0.0580860897898674,
+      "compressed_loss": 0.10420827567577362,
+      "source_power_nmse": [
+        0.01864655502140522,
+        1.2563928365707397,
+        1.1030551195144653,
+        0.008875282481312752,
+        0.020538561046123505
+      ],
+      "mean_source_power_nmse": 0.48150166869163513,
+      "emission_centroid_errors_s": [
+        0.000914841890335083,
+        0.1372692584991455,
+        0.33175212144851685,
+        0.000932157039642334,
+        0.0006456971168518066
+      ],
+      "mean_emission_centroid_error_s": 0.09430281817913055,
+      "estimated_source_rms_power": [
+        1.1676506996154785,
+        0.4927382171154022,
+        0.9121377468109131,
+        0.7846774458885193,
+        0.042308151721954346
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "tonal",
+        "sweep",
+        "sweep"
+      ],
+      "bank_indices": [
+        531,
+        246,
+        412,
+        535,
+        246
+      ],
+      "best_step": 395,
+      "fit_seconds": 19.623960500000976,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 5,
+      "stations": 6,
+      "position_errors_m": [
+        0.0038055614568293095,
+        0.024525389075279236,
+        124.18565368652344,
+        0.1447077840566635,
+        0.18793310225009918
+      ],
+      "mean_position_error_m": 24.909324645996094,
+      "max_position_error_m": 124.18565368652344,
+      "fraction_within_10m": 0.800000011920929,
+      "power_nmse": 0.02552966959774494,
+      "compressed_loss": 0.04538394510746002,
+      "source_power_nmse": [
+        0.01866147853434086,
+        0.0018089849036186934,
+        1.0116183757781982,
+        0.005873509217053652,
+        0.005179638508707285
+      ],
+      "mean_source_power_nmse": 0.20862841606140137,
+      "emission_centroid_errors_s": [
+        0.0009086728096008301,
+        0.0006716251373291016,
+        0.8111398816108704,
+        0.00029468536376953125,
+        0.0013394355773925781
+      ],
+      "mean_emission_centroid_error_s": 0.162870854139328,
+      "estimated_source_rms_power": [
+        1.1329340934753418,
+        0.9748804569244385,
+        0.7293803691864014,
+        0.9117376208305359,
+        0.01420537754893303
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "sweep",
+        "tonal",
+        "tonal"
+      ],
+      "bank_indices": [
+        533,
+        245,
+        535,
+        412,
+        542
+      ],
+      "best_step": 396,
+      "fit_seconds": 24.087775499967393,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    },
+    {
+      "events": 5,
+      "stations": 8,
+      "position_errors_m": [
+        0.0053014629520475864,
+        0.2994362711906433,
+        64.50312805175781,
+        0.08540426194667816,
+        0.1285567432641983
+      ],
+      "mean_position_error_m": 13.004365921020508,
+      "max_position_error_m": 64.50312805175781,
+      "fraction_within_10m": 0.800000011920929,
+      "power_nmse": 0.038020968437194824,
+      "compressed_loss": 0.046353064477443695,
+      "source_power_nmse": [
+        0.018616963177919388,
+        0.551342785358429,
+        30.23392105102539,
+        0.006395549513399601,
+        0.014446594752371311
+      ],
+      "mean_source_power_nmse": 6.164944648742676,
+      "emission_centroid_errors_s": [
+        0.0009365975856781006,
+        0.02322220802307129,
+        0.11993515491485596,
+        7.706880569458008e-05,
+        0.0011419057846069336
+      ],
+      "mean_emission_centroid_error_s": 0.029062587767839432,
+      "estimated_source_rms_power": [
+        1.1545724868774414,
+        0.7230401635169983,
+        0.9129377603530884,
+        0.7681092023849487,
+        0.2720908224582672
+      ],
+      "inferred_families": [
+        "tonal",
+        "sweep",
+        "tonal",
+        "sweep",
+        "sweep"
+      ],
+      "bank_indices": [
+        533,
+        256,
+        412,
+        535,
+        235
+      ],
+      "best_step": 395,
+      "fit_seconds": 29.48089569999138,
+      "decoder_unchanged": true,
+      "test_calls_disjoint_from_training": true
+    }
+  ],
+  "comparison": {
+    "baseline": "Design/Experiments/mixture-only-seed7.json",
+    "caveat": "Decoder parameterization and candidate initialization also changed; this does not isolate the effect of freezing alone",
+    "mean_case_mixture_nmse": 0.01964450868157049,
+    "baseline_mean_case_mixture_nmse": 0.04346708937858542,
+    "mean_case_source_nmse": 3.991847707501923,
+    "baseline_mean_case_source_nmse": 1.452187635237351
+  },
+  "observations": [
+    "The same decoder trained on 96 isolated calls was frozen for all 12 independent mixture cases.",
+    "Three calls/eight stations recovered all three positions; the weak pulse error was about 0.17 m.",
+    "Five calls/four stations recovered 3/5 positions within 10 m, versus 4/5 for the mixture-trained baseline.",
+    "Overall recovery stayed at 33/42 sources within 10 m. Several fits duplicated strong calls and missed weak calls.",
+    "Mean mixture reconstruction improved, but mean source-field reconstruction worsened: lower mixture loss does not prove correct decomposition.",
+    "One noiseless scene seed with perfect synchronization and supplied count/duration priors; not a broad accuracy benchmark."
+  ]
+}

@@ -67,7 +67,7 @@ def plot_calls(training, path: Path) -> None:
     _save(fig, path)
 
 
-def plot_stations(scene, prediction, path: Path) -> None:
+def plot_stations(scene, prediction, path: Path, figure_title: str | None = None) -> None:
     count = len(scene.stations)
     fig, axes = plt.subplots(count, 3, figsize=(12, 2.3 * count), squeeze=False)
     reference = float(scene.power.max())
@@ -87,6 +87,8 @@ def plot_stations(scene, prediction, path: Path) -> None:
         axes[m, 2].set(xlabel="Time (s)", ylabel="Frequency (Hz)")
         axes[m, 2].set_title(f"S{m+1}: Rendered − observed", pad=16)
         fig.colorbar(artist, ax=axes[m, 2], label="Power residual")
+    if figure_title:
+        fig.suptitle(figure_title)
     fig.tight_layout()
     _save(fig, path)
 

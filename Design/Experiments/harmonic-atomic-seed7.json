@@ -1,0 +1,592 @@
+{
+  "protocol": {
+    "scene_seed": 7,
+    "pretrain_steps": 3000,
+    "training_examples": 96,
+    "validation_examples": 24,
+    "bank_frequency_step_hz": 7.5,
+    "mixture_steps": 400,
+    "proposal_steps": 80,
+    "proposal_grid_size": 25,
+    "training_seed": 23,
+    "validation_seed": 29,
+    "energy_control": "unit sum of squared oscillator amplitudes; approximately equal waveform RMS",
+    "harmonic_to_control_source_energy_ratios": [
+      0.9999979138374329,
+      1.000004768371582,
+      1.0000003576278687,
+      0.9999969601631165,
+      1.000005841255188
+    ],
+    "held_equal": "fundamentals, excursions, geometry, onsets, source amplitudes, seeds, total splauts, budgets and bank spacing",
+    "limitation": "one scene seed; learned shapes and greedy inversion can fail; count and duration supplied"
+  },
+  "summary": {
+    "control": {
+      "config": {
+        "sample_rate": 8000,
+        "n_fft": 512,
+        "hop_length": 80,
+        "scene_duration": 2.4,
+        "call_duration": 0.4,
+        "area_size": 300.0,
+        "sound_speed": 343.0,
+        "distance_offset": 1.0,
+        "noise_std": 0.0,
+        "splauts": 96,
+        "latent_dim": 16,
+        "seed": 7,
+        "harmonic_count": 1,
+        "harmonic_rolloff": 0.7,
+        "frequency_scale": 0.3
+      },
+      "mean_training_nmse": 0.0005011227458453504,
+      "mean_validation_nmse": 0.00923285266496047,
+      "localized_within_10m": 36,
+      "total_sources": 42,
+      "all_decoders_unchanged": true,
+      "all_test_calls_disjoint_from_training": true,
+      "power_nmse": 0.021771791279509973,
+      "mean_source_power_nmse": 0.21667545719537884
+    },
+    "harmonic": {
+      "config": {
+        "sample_rate": 8000,
+        "n_fft": 512,
+        "hop_length": 80,
+        "scene_duration": 2.4,
+        "call_duration": 0.4,
+        "area_size": 300.0,
+        "sound_speed": 343.0,
+        "distance_offset": 1.0,
+        "noise_std": 0.0,
+        "splauts": 96,
+        "latent_dim": 16,
+        "seed": 7,
+        "harmonic_count": 4,
+        "harmonic_rolloff": 0.7,
+        "frequency_scale": 0.3
+      },
+      "mean_training_nmse": 0.0021554771289326404,
+      "mean_validation_nmse": 0.00966368215934684,
+      "localized_within_10m": 35,
+      "total_sources": 42,
+      "all_decoders_unchanged": true,
+      "all_test_calls_disjoint_from_training": true,
+      "power_nmse": 0.026200414383007836,
+      "mean_source_power_nmse": 0.21331198988870406,
+      "validation_nmse_by_harmonic_order": [
+        0.008084454796820259,
+        0.016737100600342576,
+        0.022094604913339328,
+        0.021641501788205158
+      ]
+    }
+  },
+  "cases": [
+    {
+      "events": 2,
+      "stations": 4,
+      "control": {
+        "position_errors_m": [
+          0.010373283177614212,
+          0.0005104857264086604
+        ],
+        "mean_position_error_m": 0.005441884510219097,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.0007111434824764729,
+        "source_power_nmse": [
+          0.0014241746393963695,
+          9.848605986917391e-05
+        ],
+        "mean_source_power_nmse": 0.0007613303605467081,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.039491117000579834,
+          0.0017781072529032826
+        ],
+        "mean_position_error_m": 0.020634612068533897,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.003143889829516411,
+        "source_power_nmse": [
+          0.004678410943597555,
+          0.000623007130343467
+        ],
+        "mean_source_power_nmse": 0.0026507091242820024,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 2,
+      "stations": 6,
+      "control": {
+        "position_errors_m": [
+          0.015894299373030663,
+          0.0009768307209014893
+        ],
+        "mean_position_error_m": 0.008435565046966076,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.0007142593967728317,
+        "source_power_nmse": [
+          0.0014242231845855713,
+          9.752278128871694e-05
+        ],
+        "mean_source_power_nmse": 0.0007608729647472501,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.02912779524922371,
+          0.0017601428553462029
+        ],
+        "mean_position_error_m": 0.015443969517946243,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.002944385865703225,
+        "source_power_nmse": [
+          0.00467432988807559,
+          0.000624743290245533
+        ],
+        "mean_source_power_nmse": 0.0026495365891605616,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 2,
+      "stations": 8,
+      "control": {
+        "position_errors_m": [
+          0.015185125172138214,
+          0.0007864200160838664
+        ],
+        "mean_position_error_m": 0.00798577256500721,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.0007120351074263453,
+        "source_power_nmse": [
+          0.001424717134796083,
+          9.700739610707387e-05
+        ],
+        "mean_source_power_nmse": 0.000760862254537642,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.029658356681466103,
+          0.0052705202251672745
+        ],
+        "mean_position_error_m": 0.01746443845331669,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.0029672072269022465,
+        "source_power_nmse": [
+          0.00468301959335804,
+          0.0006280244560912251
+        ],
+        "mean_source_power_nmse": 0.0026555219665169716,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 3,
+      "stations": 4,
+      "control": {
+        "position_errors_m": [
+          0.010021972469985485,
+          0.3832074701786041,
+          14.906140327453613
+        ],
+        "mean_position_error_m": 5.099790096282959,
+        "fraction_within_10m": 0.6666666865348816,
+        "power_nmse": 0.018847737461328506,
+        "source_power_nmse": [
+          0.0014185609761625528,
+          0.0009263602551072836,
+          1.3446351289749146
+        ],
+        "mean_source_power_nmse": 0.44899335503578186,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.04074440523982048,
+          0.16033817827701569,
+          14.760663032531738
+        ],
+        "mean_position_error_m": 4.987248420715332,
+        "fraction_within_10m": 0.6666666865348816,
+        "power_nmse": 0.01921306923031807,
+        "source_power_nmse": [
+          0.0046743713319301605,
+          0.001234959694556892,
+          1.345032811164856
+        ],
+        "mean_source_power_nmse": 0.4503140449523926,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 3,
+      "stations": 6,
+      "control": {
+        "position_errors_m": [
+          0.0147647550329566,
+          0.21694530546665192,
+          0.5577846169471741
+        ],
+        "mean_position_error_m": 0.2631649076938629,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.016085747629404068,
+        "source_power_nmse": [
+          0.0014197495765984058,
+          0.0002678451419342309,
+          0.3419369161128998
+        ],
+        "mean_source_power_nmse": 0.11454150080680847,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.02912188321352005,
+          0.100345678627491,
+          14.23532772064209
+        ],
+        "mean_position_error_m": 4.788265228271484,
+        "fraction_within_10m": 0.6666666865348816,
+        "power_nmse": 0.01758105866611004,
+        "source_power_nmse": [
+          0.004667603876441717,
+          0.0007465214584954083,
+          1.2594350576400757
+        ],
+        "mean_source_power_nmse": 0.42161640524864197,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 3,
+      "stations": 8,
+      "control": {
+        "position_errors_m": [
+          0.014444367960095406,
+          0.11938760429620743,
+          0.49405229091644287
+        ],
+        "mean_position_error_m": 0.20929475128650665,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.015153937041759491,
+        "source_power_nmse": [
+          0.0014198657590895891,
+          0.00021992546680849046,
+          0.338448166847229
+        ],
+        "mean_source_power_nmse": 0.11336264759302139,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.02934562787413597,
+          0.043687108904123306,
+          0.1423155516386032
+        ],
+        "mean_position_error_m": 0.07178276032209396,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.013900864869356155,
+        "source_power_nmse": [
+          0.004674234893172979,
+          0.000691118068061769,
+          0.0020980164408683777
+        ],
+        "mean_source_power_nmse": 0.0024877898395061493,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 4,
+      "stations": 4,
+      "control": {
+        "position_errors_m": [
+          0.009771404787898064,
+          0.40824267268180847,
+          14.65262222290039,
+          0.003445953596383333
+        ],
+        "mean_position_error_m": 3.7685205936431885,
+        "fraction_within_10m": 0.75,
+        "power_nmse": 0.012704619206488132,
+        "source_power_nmse": [
+          0.001448494615033269,
+          0.0007128041470423341,
+          1.3771421909332275,
+          0.001002645818516612
+        ],
+        "mean_source_power_nmse": 0.3450765311717987,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.03562071919441223,
+          0.1680648922920227,
+          14.48353385925293,
+          0.0017692958936095238
+        ],
+        "mean_position_error_m": 3.6722471714019775,
+        "fraction_within_10m": 0.75,
+        "power_nmse": 0.013452902436256409,
+        "source_power_nmse": [
+          0.004739025142043829,
+          0.0010355645790696144,
+          1.3899248838424683,
+          0.002905499190092087
+        ],
+        "mean_source_power_nmse": 0.3496512472629547,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 4,
+      "stations": 6,
+      "control": {
+        "position_errors_m": [
+          0.009179987944662571,
+          0.25706809759140015,
+          14.65561580657959,
+          0.0040965513326227665
+        ],
+        "mean_position_error_m": 3.731490135192871,
+        "fraction_within_10m": 0.75,
+        "power_nmse": 0.009608374908566475,
+        "source_power_nmse": [
+          0.001462917192839086,
+          0.00023412704467773438,
+          1.2403839826583862,
+          0.0010024451185017824
+        ],
+        "mean_source_power_nmse": 0.3107708692550659,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.03158527985215187,
+          0.10877323895692825,
+          14.525479316711426,
+          0.052955254912376404
+        ],
+        "mean_position_error_m": 3.6796984672546387,
+        "fraction_within_10m": 0.75,
+        "power_nmse": 0.012296044267714024,
+        "source_power_nmse": [
+          0.004766745958477259,
+          0.0007550824084319174,
+          1.1933271884918213,
+          0.004572067875415087
+        ],
+        "mean_source_power_nmse": 0.30085524916648865,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 4,
+      "stations": 8,
+      "control": {
+        "position_errors_m": [
+          0.011964856646955013,
+          0.11564189195632935,
+          0.12544655799865723,
+          0.003579259617254138
+        ],
+        "mean_position_error_m": 0.06415814161300659,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.008123389445245266,
+        "source_power_nmse": [
+          0.0014513495843857527,
+          0.0001726828486425802,
+          0.005462730769068003,
+          0.0010033773723989725
+        ],
+        "mean_source_power_nmse": 0.0020225350745022297,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.022289665415883064,
+          0.04975968226790428,
+          0.09946312755346298,
+          0.03133086487650871
+        ],
+        "mean_position_error_m": 0.05071083828806877,
+        "fraction_within_10m": 1.0,
+        "power_nmse": 0.010853557847440243,
+        "source_power_nmse": [
+          0.0047509558498859406,
+          0.0009190064738504589,
+          0.0029025732073932886,
+          0.002918497659265995
+        ],
+        "mean_source_power_nmse": 0.002872758312150836,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 5,
+      "stations": 4,
+      "control": {
+        "position_errors_m": [
+          0.008528475649654865,
+          0.6576470732688904,
+          48.157249450683594,
+          3.1112446784973145,
+          8.5018892288208
+        ],
+        "mean_position_error_m": 12.087311744689941,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.0653386116027832,
+        "source_power_nmse": [
+          0.001440563122741878,
+          0.0010332077508792281,
+          1.939324140548706,
+          0.014253872446715832,
+          0.2848292291164398
+        ],
+        "mean_source_power_nmse": 0.44817620515823364,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.035712067037820816,
+          0.3101896345615387,
+          69.40963745117188,
+          1.1755719184875488,
+          0.745097279548645
+        ],
+        "mean_position_error_m": 14.335241317749023,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.08516800403594971,
+        "source_power_nmse": [
+          0.004741110373288393,
+          0.0010240038391202688,
+          2.414999485015869,
+          0.013556933961808681,
+          0.27621787786483765
+        ],
+        "mean_source_power_nmse": 0.542107880115509,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 5,
+      "stations": 6,
+      "control": {
+        "position_errors_m": [
+          0.010552588850259781,
+          0.4952148497104645,
+          55.250038146972656,
+          1.6534156799316406,
+          8.19663143157959
+        ],
+        "mean_position_error_m": 13.121170043945312,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.05791487172245979,
+        "source_power_nmse": [
+          0.0014529216568917036,
+          0.0007641344564035535,
+          2.712041139602661,
+          0.010073001496493816,
+          0.24977245926856995
+        ],
+        "mean_source_power_nmse": 0.5948207378387451,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.03158954530954361,
+          0.23658418655395508,
+          69.07452392578125,
+          0.5871105790138245,
+          0.7036781907081604
+        ],
+        "mean_position_error_m": 14.12669849395752,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.06986177712678909,
+        "source_power_nmse": [
+          0.00476499181240797,
+          0.0009865030879154801,
+          1.2256590127944946,
+          0.008997100405395031,
+          0.0998784750699997
+        ],
+        "mean_source_power_nmse": 0.2680571973323822,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    },
+    {
+      "events": 5,
+      "stations": 8,
+      "control": {
+        "position_errors_m": [
+          0.014676036313176155,
+          0.37173184752464294,
+          119.64713287353516,
+          1.3968720436096191,
+          2.6693851947784424
+        ],
+        "mean_position_error_m": 24.81995964050293,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.0553467683494091,
+        "source_power_nmse": [
+          0.0014421927044168115,
+          0.0007061515934765339,
+          1.000533103942871,
+          0.007513661868870258,
+          0.09009506553411484
+        ],
+        "mean_source_power_nmse": 0.22005803883075714,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      },
+      "harmonic": {
+        "position_errors_m": [
+          0.025280535221099854,
+          0.16731323301792145,
+          116.30994415283203,
+          0.5816540122032166,
+          0.7092030048370361
+        ],
+        "mean_position_error_m": 23.558679580688477,
+        "fraction_within_10m": 0.800000011920929,
+        "power_nmse": 0.06302221119403839,
+        "source_power_nmse": [
+          0.004745688289403915,
+          0.0010231852065771818,
+          1.0026259422302246,
+          0.007758431602269411,
+          0.05297452211380005
+        ],
+        "mean_source_power_nmse": 0.2138255387544632,
+        "decoder_unchanged": true,
+        "test_calls_disjoint_from_training": true
+      }
+    }
+  ]
+}

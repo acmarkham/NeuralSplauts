@@ -7,6 +7,7 @@ import torch
 from torch import Tensor
 
 from ..config import Config, station_layout, validate_stations
+from ..propagation import absorption_transmission
 from .calls import CallSpec, power_spectrogram, sample_call, synthesize_call
 
 
@@ -30,11 +31,12 @@ class Scene:
     source_power: list[Tensor]
     source_times: list[Tensor]
     delays: Tensor  # [stations, events], excluding emission onset
-    power_gains: Tensor
+    power_gains: Tensor  # Geometric spreading only; spectral absorption is applied to waveforms.
 
 
 def fractional_delay(waveform: Tensor, delay_seconds: float | Tensor,
-                     output_samples: int, sample_rate: int) -> Tensor:
+                     output_samples: int, sample_rate: int, *, distance: float | Tensor = 0.,
+                     config: Config | None = None) -> Tensor:
     """Bandlimited fractional delay via a phase ramp on a zero-padded waveform.
 
     Padding keeps the shifted waveform away from the circular boundary. Sinc
@@ -50,6 +52,13 @@ def fractional_delay(waveform: Tensor, delay_seconds: float | Tensor,
     fft_size = 1 << (size - 1).bit_length()
     frequencies = torch.fft.rfftfreq(fft_size).to(waveform.dtype)
     phase = torch.exp(-2j * torch.pi * frequencies * shift)
+    if config is not None and config.absorption_db_per_km:
+        if config.sample_rate != sample_rate:
+            raise ValueError("Propagation sample rate differs from configuration")
+        distance = torch.as_tensor(distance, dtype=waveform.dtype)
+        if not torch.isfinite(distance) or distance < 0:
+            raise ValueError("Absorption distance must be finite and nonnegative")
+        phase = phase * absorption_transmission(distance, frequencies * sample_rate, config)
     return torch.fft.irfft(torch.fft.rfft(waveform, n=fft_size) * phase, n=fft_size)[:output_samples]
 
 
@@ -80,7 +89,8 @@ def simulate_scene(events: list[SourceEvent], stations: Tensor, config: Config,
         source_powers.append(power)
         source_times.append(times)
         for m in range(len(stations)):
-            delayed = fractional_delay(source, event.onset + delays[m, k], count, config.sample_rate)
+            delayed = fractional_delay(source, event.onset + delays[m, k], count, config.sample_rate,
+                                       distance=distances[m, k], config=config)
             waveforms[m] += event.amplitude * gains[m, k].sqrt() * delayed
     rng = torch.Generator().manual_seed(config.seed if seed is None else seed)
     waveforms += config.noise_std * torch.randn(waveforms.shape, generator=rng, dtype=waveforms.dtype)
@@ -91,12 +101,12 @@ def simulate_scene(events: list[SourceEvent], stations: Tensor, config: Config,
 
 def random_scene(config: Config, event_count: int = 1, station_count: int = 4,
                  layout: str = "corners", call_type: str | None = None) -> Scene:
-    if event_count not in (1, 2, 3):
-        raise ValueError("The prototype supports 1–3 calls per random scene")
+    if event_count not in (1, 2, 3, 4, 5):
+        raise ValueError("The prototype supports 1–5 calls per random scene")
     rng = torch.Generator().manual_seed(config.seed)
     events = []
     for k in range(event_count):
-        kind = call_type or ("tonal", "sweep", "pulse")[k % 3]
+        kind = call_type or config.call_families[k % len(config.call_families)]
         position = config.area_size * (0.25 + 0.5 * torch.rand(2, generator=rng))
         spec = sample_call(kind, config, rng)
         events.append(SourceEvent(position, 0.2 + 0.13 * k, spec,

@@ -9,7 +9,7 @@ import torch
 from .config import Config, station_layout
 from .model.events import EventState
 from .model.generator import evaluate_field
-from .simulator.calls import CALL_TYPES, CallSpec
+from .simulator.calls import CallSpec
 from .simulator.scene import SourceEvent, random_scene, simulate_scene
 from .training.localize import initialize_positions, localize, spatial_loss_grid
 from .training.train_calls import train_calls
@@ -115,7 +115,7 @@ def run_comparison(config: Config, output: Path, train_steps: int = 600,
                    localization_steps: int = 250, grid_size: int = 15) -> list[dict]:
     """Change one variable at a time from a fixed four-station/no-noise tonal baseline."""
     output.mkdir(parents=True, exist_ok=True)
-    calls = [CallSpec(kind, config.call_duration, 1450., 260.) for kind in CALL_TYPES]
+    calls = [CallSpec(kind, config.call_duration, 1450., 260.) for kind in config.call_families]
     training = train_calls(calls, config, train_steps)
     cases = [("baseline", 4, "corners", 0., 0),
              ("irregular perimeter", 4, "irregular", 0., 0),

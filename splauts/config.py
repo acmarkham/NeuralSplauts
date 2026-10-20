@@ -21,8 +21,16 @@ class Config:
     splauts: int = 32
     latent_dim: int = 16
     seed: int = 7
+    harmonic_count: int = 1
+    harmonic_rolloff: float = 0.7  # Waveform amplitude of order h is h**(-rolloff).
+    frequency_scale: float = 1.0  # Scales both fundamental and its excursion.
+    call_families: tuple[str, ...] = ("tonal", "sweep", "pulse")
+    absorption_db_per_km: float = 0.0  # Loss at 1 kHz; zero preserves legacy propagation.
+    absorption_power: float = 2.0
+    absorption_distance_bins: int = 8  # Proposal search only; refinement uses continuous distances.
 
     def __post_init__(self) -> None:
+        object.__setattr__(self, "call_families", tuple(self.call_families))
         if self.sample_rate <= 0 or self.n_fft < 4 or self.hop_length <= 0:
             raise ValueError("Invalid STFT configuration")
         if self.hop_length > self.n_fft:
@@ -32,6 +40,17 @@ class Config:
             raise ValueError("Durations, area, sound speed and distance offset must be positive")
         if self.noise_std < 0 or self.splauts < 1 or self.latent_dim < 1:
             raise ValueError("Noise must be nonnegative and model dimensions positive")
+        if (not isinstance(self.harmonic_count, int) or self.harmonic_count < 1
+                or not math.isfinite(self.harmonic_rolloff) or self.harmonic_rolloff < 0
+                or not math.isfinite(self.frequency_scale) or self.frequency_scale <= 0):
+            raise ValueError("Use a positive integer harmonic count, nonnegative rolloff and positive frequency scale")
+        if (not self.call_families or len(set(self.call_families)) != len(self.call_families)
+                or not set(self.call_families) <= {"tonal", "sweep", "pulse", "moo"}):
+            raise ValueError("Use distinct supported call families")
+        if (not math.isfinite(self.absorption_db_per_km) or self.absorption_db_per_km < 0
+                or not math.isfinite(self.absorption_power) or self.absorption_power <= 0
+                or not isinstance(self.absorption_distance_bins, int) or self.absorption_distance_bins < 2):
+            raise ValueError("Use finite nonnegative absorption, positive frequency exponent and at least two distance bins")
 
 
 def validate_stations(stations: Tensor) -> None:
