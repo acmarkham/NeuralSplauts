@@ -6,3 +6,4 @@ dist/
 .venv/
 outputs/
 .serena/
+/real_world/source_data

@@ -494,11 +494,377 @@ The clustered layout deliberately illustrates difficult geometry. All primary
 simulation and localization entry points require at least four distinct,
 non-collinear stations.
 
+## Real elephant recording: first feasibility pass
+
+The real-data runner selects the eight geographically nearest stations to M04
+using CSV `TrackIndex` (one-based WAV channels), converts latitude/longitude to
+local east/north metres, and streams the 41-channel floating-point WAV through
+anti-aliased resampling to 512 Hz. Install the optional audio dependencies:
+
+```powershell
+rtk pip install -e ".[real]"
+rtk proxy python -m splauts.real_experiments --output outputs/real_rumbles
+rtk proxy python -m splauts.real_controls --output outputs/real_rumbles
+rtk proxy python -m splauts.real_controls --injection --output outputs/real_rumbles
+rtk proxy python -m splauts.real_tdoa --output outputs/real_rumbles
+rtk proxy python -m splauts.real_experiments --report-only --output outputs/real_rumbles
+```
+
+Open `outputs/real_rumbles/report.html` for spectrograms, maps, validation scores,
+and audio players. The default input is
+`real_world/source_data/elephant rumble/multi_aud_20230308_104500.wav`, with the
+matching CSV. Use a separate output folder for each configuration. A quick run:
+
+```powershell
+rtk proxy python -m splauts.real_experiments --duration 16 --starts 0 8 --steps 60 --warmup-steps 40 --output outputs/real_smoke
+```
+
+The default experiment covers all 120 seconds in 29 overlapping eight-second
+windows at four-second intervals. Each has enough extra audio for the maximum
+travel time within a station-centred square with a 250 m margin. Fits include
+this padded support; metrics and audio use the central arrival-time window.
+The model uses a 12–120 Hz band, 0.5 s Hann STFTs at 0.0625 s hops, and a
+five-second event-duration prior. One- and two-source fits each learn a fresh
+shared 48-splaut neural decoder, with 100 provisional-shape warmup and 200 joint
+optimization steps. These are source-count capacity assumptions, not detected
+animal counts. Audio is never loaded as the entire original 630 MB tensor.
+
+Six stations enter proposal search and fitting: M04, M05, M07, M02, M15 and M09.
+M03 and M11 are held out from initialization, fitting and checkpoint selection.
+A recording-wide 20th-percentile noise floor is estimated separately at each
+station/frequency, including held-out channels for background calibration.
+There is one shared power scale, without independent channel normalization.
+Propagation assumes synchronized clocks, 343 m/s sound speed, stationary
+isotropic sources and waveform gain `1 / (distance + 50 m)`. The 50 m softening
+is a modeling prior, not an estimated physical parameter or microphone calibration.
+
+`fit.pt` contains the learned decoder, latent/event state, Gaussian parameters,
+observations, per-source received powers, coordinates and axes, and loads with
+`torch.load(..., weights_only=True)`. `candidates.csv` contains unlabelled source
+positions and emission-time centroids; overlapping windows repeat candidates.
+It must not be read as an animal census or a set of independently verified events.
+Each case exports M04 mixture-phase masked audio and an exact waveform residual.
+Mixture/components/residual share one gain. Both original-rate and 4× playback
+copies are saved; accelerated playback changes frequency and duration.
+
+`real_controls` reruns three nonoverlapping windows chosen by fitting error,
+with a different initialization seed and with shuffled channel/coordinate
+associations. The injection control independently synthesizes two overlapping
+harmonic waveforms into the first 16 seconds of measured background at +12 dB
+total band power, then fits mixtures without source labels. Its saved source
+positions/audio are accessed only for evaluation. `real_tdoa` independently
+maps mean normalized pairwise waveform correlation over a 101 × 101 position
+grid in the 20–110 Hz band, using only the same six fitting stations. These maps
+are localization diagnostics, not calibrated posteriors.
+
+The first run establishes a tractable real-data pipeline and a successful
+favorable injection control, but does **not** establish reliable separation or
+localization of the original elephants. Station-local noise, flexible event
+fields, unknown event counts, calibration, and amplitude/propagation mismatch
+remain major problems. Bird-call separation is outside this low-frequency pass;
+it needs higher-rate or multiresolution modeling. The recorded experiment and
+its quantitative limitations are in
+[real-rumbles-first-pass.json](Design/Experiments/real-rumbles-first-pass.json).
+
+## Seismic elephant recording: dense-array feasibility pass
+
+The seismic runner uses the native 500 Hz recording and a fixed propagation
+speed of **330 m/s**. It selects stations within 500 m of the acoustic M04
+coordinate, then makes a seeded random split: **16 fitting stations, 16 validation
+stations, and 181 final test stations**. Only fitting channels enter source
+initialization, decoder training, geometry refinement, or checkpoint selection.
+Validation chooses the supplied source-count prior per window; test data does
+not choose models or propagation settings.
+
+The CSV lists **1,153 tracks**, but the WAV has **1,024 channels**. Available
+one-based `TrackIndex` values are assumed to index the WAV directly. The runner
+excludes all absent tracks, including 16 within the requested radius, and saves
+the complete exclusion list. This is an explicit mapping assumption, not an
+independent verification of the recording export.
+
+```powershell
+rtk proxy python -m splauts.seismic_experiments --output outputs/seismic_rumbles
+rtk proxy python -m splauts.seismic_controls --output outputs/seismic_rumbles
+rtk proxy python -m splauts.seismic_controls --injection --output outputs/seismic_rumbles
+rtk proxy python -m splauts.seismic_controls --waveform-maps --output outputs/seismic_rumbles
+rtk proxy python -m splauts.seismic_experiments --report-only --output outputs/seismic_rumbles
+```
+
+Open `outputs/seismic_rumbles/report.html` for candidate vibration audio,
+source fields, station maps, unseen-station spectrogram predictions and controls.
+`outputs/seismic_data` caches the selected channels and spectral observations,
+so subsequent configurations do not decode the entire original WAV again.
+`--resume` retains completed fits after checking recorded settings. Use a new
+output directory after implementation changes. To reproduce the coarse
+propagation comparison, using the same cached data and spatial split:
+
+```powershell
+rtk proxy python -m splauts.seismic_experiments --starts 28 36 44 --warmup-steps 80 --steps 150 --grid-size 13 --spreading 1 --output outputs/seismic_core_smoke
+rtk proxy python -m splauts.seismic_experiments --starts 28 36 44 --warmup-steps 80 --steps 150 --grid-size 13 --spreading 2 --output outputs/seismic_core_spherical_smoke
+```
+
+The recorded experiment fits K=1 and K=2 in each of 29 overlapping eight-second
+windows, with a four-second stride and a five-second source-duration prior.
+Spectra use a one-second Hann window, 0.1 s hops, and the 8–80 Hz band. A fixed
+20th-percentile spectral background is estimated separately per station across
+the recording; validation/test channels participate only in their own stationary
+background calibration. A common numerical power scale comes from fitting
+stations. Channels are not individually normalized or retrospectively fitted
+with test-station transient gains.
+
+A fresh shared MLP produces 64 Gaussian splauts per event, with 100 provisional
+mixture-shape warmup and 200 joint-fit iterations. Travel-time padding supplies
+source-field context, but **only core-window arrivals enter proposal scoring and
+the optimization objective**. This prevents a louder call in padding from taking
+over the fit. The general mixture fitter now accepts an optional Boolean
+`time_mask`; existing experiments retain their previous behavior when omitted.
+
+Power spreading is `(distance + 25 m)**(-p)`. A coarse comparison of p=1
+(surface-like) and p=2 (spherical) on the 28/36/44 s windows selected p=1 by
+median validation NMSE, **0.899 versus 0.950**. This is a pragmatic propagation
+choice, not a measurement of the seismic attenuation law. `Config` exposes
+`power_spreading_exponent`; waveform simulation, both proposal searches and the
+continuous renderer use it consistently. The legacy default remains p=2.
+
+For native data, validation selected K=1 in 17 windows and K=2 in 12. Median
+mean-test-station power NMSE is **0.949** (zero excess prediction is 1); 23 of 29
+windows improve on that baseline. This is modest reconstruction, not clean
+separation. In the three fixed harmonic windows, shuffled geometry worsens test
+prediction in all three cases. Changing the decoder initialization moves matched
+positions by at most about 10 m in these checks, but this is optimizer sensitivity,
+not an accuracy bound. Some inferred fields show clear harmonic rumble structure;
+others absorb station-local or non-rumble energy.
+
+An additional check on the same three harmonic windows uses 96 splauts, 400
+warmup steps, 800 joint-fit steps and a 17 × 17 proposal grid. It does not give
+consistent validation or test improvements; adding optimization alone does not
+resolve the native-data gap. These exploratory results remain separate from the
+primary experiment, under `outputs/seismic_refined`:
+
+```powershell
+rtk proxy python -m splauts.seismic_experiments --starts 28 36 44 --warmup-steps 400 --steps 800 --splauts 96 --grid-size 17 --output outputs/seismic_refined
+```
+
+The independent injection adds two overlapping harmonic waveforms at +12 dB
+total band power to measured seismic background. With known K/duration and
+matched propagation, position errors are **7.8 m and 2.2 m**. Mean unseen-station
+power NMSE is **0.0354**, and reference separation SI-SDR improves from
+2.8 to 18.4 dB and from -7.0 to 10.0 dB. These favorable injected-call results
+must not be read as measured elephant accuracy.
+
+`selected.json` records the validation-selected fits. `candidates.csv` retains all
+capacities and overlapping windows; `selected_candidates.csv` retains only the
+selected capacities. These are candidate positions and emission centroids, not
+independent calls or identified elephants. `fit.pt` saves the shared decoder,
+event state, Gaussian parameters, fitting observations, axes and core time mask;
+it loads with `weights_only=True`. Test predictions can be regenerated at any
+saved station coordinate without fitting an extra gain. Reference audio uses
+mixture-phase masks and preserves an exact residual, with one gain for all
+components. Original-rate and 4× playback files are provided.
+
+The [recorded seismic experiment](Design/Experiments/seismic-rumbles-first-pass.json)
+preserves metrics and assumptions. Remaining issues include unverified channel
+mapping, sensor/coupling differences, stationary noise versus transient sources,
+event-count/duration discovery, source association across windows, and the lack
+of clean sources or source-position ground truth. Dense held-out stations make
+these limitations measurable; they do not by themselves resolve identifiability.
+
+## Synthetic sensor self-noise and shared event discovery
+
+This experiment implements a conservative **self + shared** decomposition.
+Each fitting sensor starts with its entire observed spectrogram in its own
+zero-delay self field, and all shared event gates start at exactly zero. A fresh
+shared neural decoder proposes source fields; all Gaussians within one group
+share a physical point location and onset. Five candidate groups are an upper
+bound, not the true source count supplied to inference.
+
+```powershell
+rtk proxy python -m splauts.self_noise_experiments --workers 3
+rtk proxy python -m splauts.self_noise_experiments --resume --workers 3
+```
+
+Open `outputs/self_noise_spatial/report.html` for the complete experiment,
+ablations, source maps and true/inferred self/shared spectrograms. A shorter run:
+
+```powershell
+rtk proxy python -m splauts.self_noise_experiments --seeds 7 --noise-levels 1 --steps 300 --warmup-steps 100 --primary-only --output outputs/self_noise_quick
+```
+
+For observed station power `Y`, shared prediction `P`, and local power `S`:
+
+```text
+P = sum of physically propagated neural source fields
+S = max(Y - P, 0)
+L = 10 L_render + L_self + 0.08 L_space + 4 L_support
+```
+
+`S` is a direct per-sensor spectrogram with no source position or travel delay.
+It is defined by energy conservation rather than an unrestricted optimization
+that could reduce the self penalty simply by discarding observations. A good
+shared source replaces self energy at multiple sensors. A bad shared source
+overpredicts energy somewhere; nonnegative self cannot cancel that error.
+
+`L_render` is station-balanced power NMSE of `P + S` versus `Y`.
+`L_self` is the mean fraction of observed energy still in self, with fixed
+per-station normalization. Shared gates `a_k` are measured in those same
+station-balanced received-energy units, fixing source/decoder scale redundancy.
+
+The spatial cost is a smooth occupied-location count:
+
+```text
+L_space = sum_k a_k / (tau + sum_j K(x_k, x_j) a_j)
+K(x, y) = exp(-||x-y||^2 / (2 * r^2))
+tau = 0.005; r = 15 m
+```
+
+Separated groups pay separately; coincident groups pay according to their
+combined mass. Splitting one source into several time/spectral groups at the
+same location therefore does not create extra location costs. This favors a
+few compact sites while permitting multiple groups per site. Reported sites
+cluster active groups within 15 m, independently of ground truth; a gate is
+active above a fixed 0.03 received-energy threshold.
+
+Self-energy and sparsity penalties alone can incorrectly promote a common
+stationary sensor-noise spectrum into shared space. `L_support` addresses that
+failure: it penalizes gate mass lacking approximately four agreeing sensors.
+Agreement combines a spatially distributed rendered footprint with positive
+normalized correlation of **temporally centered** spectral templates and station
+observations. The default correlation threshold is 0.15 with a soft transition
+of 0.03. Sensor gains cancel in this correlation. A common spectral baseline or
+a transient at just one sensor is insufficient evidence of a shared event.
+The tests explicitly cover both counterexamples.
+
+Initialization aligns only fitting-station mixtures, removes a stationary median
+for proposal construction, and estimates provisional common fields using a
+lower station quartile. The actual self/shared losses use the **full original
+observations**, not median-subtracted targets. A shared MLP warms on these
+provisional mixtures, without isolated calls. Shared gates remain zero during
+this representation warmup. Joint fitting gradually strengthens the sparse
+activation penalty over its first half, and tests optional new gate activations
+every 40 steps. Every checkpoint, including the all-self null model, is selected
+using the same **fixed final objective**, not the relaxed optimization objective
+or source labels.
+
+The default 19-case study uses eight fitting stations, four unseen interior
+stations, two overlapping harmonic moo-like sources, 500 Hz sampling,
+0.5 s Hann FFTs, 0.05 s hops, a 6 s recording and the 8–120 Hz band. Each group
+has 48 Gaussians and a supplied 2 s duration prior. Propagation uses 330 m/s and
+power gain `1 / (distance + 25 m)^2`. Fits use 200 mixture-shape warmup steps and
+600 joint steps. Seeds 7, 19 and 31 vary source positions and independent sensor
+noise. Seed 7 was a pilot used during development; the other seeds are additional
+controlled realizations of the same call family and geometry.
+
+Each sensor has its own independent colored floor, harmonic call-like disturbance
+and short burst. Noise is injected directly into that sensor with no propagation
+or delay. Sensor RMS gains vary independently. Noise multipliers 0, 1 and 2 scale
+waveforms relative to a common clean-signal RMS; they are not fixed per-sensor
+SNRs. Primary cases add independently generated signal and noise **powers**, which
+matches the renderer's additive model. Separate stress cases add waveforms before
+the STFT, including interference that need not admit a nonnegative exact power
+decomposition. Three noise-only controls and four loss ablations complete the
+study: removing the self penalty, spatial cost, coherence penalty or reconstruction
+penalty. The ground-truth noise and source fields never enter fitting.
+
+An exact total reconstruction is not evidence of separation: the initial all-self
+model already has zero error. Evaluation therefore measures source localization,
+inferred self versus known sensor noise, and shared power prediction at **four
+stations excluded from fitting**, compared with their known clean source powers.
+Independent held-out noise is not predicted or retrospectively fitted away.
+Checkpoints include the learned generator, Gaussian/event state, gates, full
+optimization history, inferred self/shared fields and post-fit truth. They load
+with `weights_only=True` and can regenerate predictions without training again.
+
+The recorded primary power-additive results pool three realizations at each level:
+
+| Noise RMS multiplier | Sources within 10 m | False/misplaced sites | Mean clean held-out shared NMSE |
+|---|---|---|---|
+| 0 | 6/6 | 0 | 0.002 |
+| 1 | 6/6 | 1 | 0.144 |
+| 2 | 2/6 | 4 | 0.208 |
+
+At multiplier 1, all six matched location errors are below 4.8 m. Held-out NMSE
+is 0.391 for pilot seed 7, which has an extra location, versus 0.022 and 0.021
+for seeds 19 and 31. The mean self-noise NMSE at this level is 0.022. All three
+noise-only controls select the all-self model with exactly zero shared energy.
+The waveform-addition stress cases recover 5/6 sources within 10 m, with mean
+clean held-out shared NMSE 0.169. Higher noise still produces substantial position
+failures even when shared-power reconstruction appears reasonable.
+
+The ablations expose the intended loss tradeoffs. Without the self penalty,
+no sources activate and everything remains self, despite perfect reconstruction.
+Without reconstruction cost, inferred shared energy reaches 3.6 times observed
+energy and held-out NMSE rises to 5.52. Removing spatial sparsity increases
+active sites from three to four on seed 7, but **improves** held-out NMSE from
+0.391 to 0.080. Removing the coherence penalty also improves that single score
+to 0.177. Thus fewer sites and stronger agreement are useful priors but are not
+uniformly better predictors; finite-data overfitting and hyperparameter choice
+remain visible failures. All ablations are retained.
+
+See [self-noise-shared-first-pass.json](Design/Experiments/self-noise-shared-first-pass.json)
+for recorded results, including false locations and high-noise failures. This is
+a small controlled synthetic study. Four-sensor support, a point-source model,
+duration and spatial-radius priors, finite candidate capacity, and power-domain
+interference remain limitations; the experiment does not establish performance
+for arbitrary noise or real elephant data.
+
+## Real seismic self/shared trial: 30–50 seconds
+
+Run the self/shared model on four overlapping 8 s windows, with 16 fitting,
+16 validation and 181 evaluation-only stations near M04:
+
+```powershell
+python -m splauts.seismic_self_shared --resume
+python -m splauts.seismic_self_shared --starts 38 --controls restart geometry_shuffle time_shuffle --resume
+python -m splauts.seismic_self_shared --audit-only
+python -m splauts.seismic_self_shared --report-only
+```
+
+This reuses `outputs/seismic_data`, verifies its source-file signature and station
+ordering, and recomputes **full original spectral power** from cached native
+waveforms. There is no floor subtraction before initializing self. Fits use
+8–35 Hz, 330 m/s, power spreading exponent 1, five possible groups of 48 Gaussian
+splauts, a 5 s duration prior, and the synthetic study's final loss weights.
+Five seconds of propagation context are retained on each side, but only core
+arrival frames enter proposals, normalization, support and the joint loss.
+All fits start all-self; checkpoints minimize the fixed full loss.
+
+The [local report](outputs/seismic_self_shared_low/report.html) contains station
+maps, spectrogram decompositions, reference vibration audio at native and 4×
+playback, unseen-station scores, checkpoints and control results. It retains a
+broad-band 8–80 Hz comparison and two 38–46 s diagnostics:
+
+```powershell
+python -m splauts.seismic_self_shared --output outputs/seismic_self_shared_wide --starts 38 --high-hz 80 --resume
+python -m splauts.seismic_self_shared --output outputs/seismic_self_shared_no_sparse --starts 38 --spatial-penalty 0 --resume
+python -m splauts.seismic_self_shared --output outputs/seismic_self_shared_explore --starts 38 --exploration-steps 200 --resume
+python -m splauts.seismic_self_shared --output outputs/seismic_self_shared_explore --starts 38 --controls geometry_shuffle time_shuffle --exploration-steps 200 --resume
+```
+
+The transferred optimizer stalls at all-self. Longer spatial exploration can
+activate two sites while selecting with the full sparse loss, but does **not**
+establish rumble separation: on 38–46 s, test raw NMSE improves to 0.865 while
+dynamic NMSE remains 1.001 and temporal correlation is only 0.034. Removing
+sparsity gives raw/dynamic NMSE 0.866/1.006. A geometry-shuffled continuation run
+also activates two sites. The improvement largely explains slowly varying
+background power; visible bursts at reference 13_05 remain in self. The
+reported sites are not verified elephant positions. Self+shared reconstruction
+at a held-out station is not used as separation evidence.
+
+The extended run initially optimizes with zero spatial penalty, then ramps to
+the original 0.08 penalty by step 500. Every iterate is still selected with the
+fixed final loss, including the all-self alternative. This is a fit-driven
+optimization diagnostic, not a model selected by test scores. The experiment
+record is [seismic-self-shared-first-pass.json](Design/Experiments/seismic-self-shared-first-pass.json).
+The unverified CSV TrackIndex/WAV ordering and lack of native source/location
+ground truth remain limitations. A useful next experiment would reserve the
+stationary floor for self and require a birth to predict time-varying power at
+other fitting stations before accepting a location.
+
 ## Conventions and limits
 
 - Coordinates are metres in a 300 × 300 m square; times are seconds, frequencies
   are Hz. Sound speed is 343 m/s, with perfect station synchronization.
-- The simulator's amplitude gain is `1 / (distance + 1 m)`. The renderer's power
+- The default simulator amplitude gain is `1 / (distance + 1 m)`. The default renderer power
   gain is its square. Source waveform amplitude is squared before being passed
   as an event's renderer amplitude. `--noise` is an absolute station waveform
   standard deviation, after attenuation; it is not an SNR in dB.

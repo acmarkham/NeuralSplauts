@@ -1,0 +1,3419 @@
+{
+  "experiment": "Native seismic self/shared neural splauts, 30\u201350 seconds",
+  "date": "2026-10-21",
+  "conclusion": "The transferred optimizer remains all-self in the four primary windows. Extended spatial exploration activates shared sites and improves raw held-out power NMSE, but does not predict the time-varying calls. Geometry and independent-time-shuffle controls also activate sites. The native elephant calls have not been reliably separated or localized.",
+  "primary_protocol": {
+    "config": {
+      "sample_rate": 500,
+      "n_fft": 500,
+      "hop_length": 50,
+      "scene_duration": 8.0,
+      "call_duration": 5.0,
+      "area_size": 1100.9124070615253,
+      "sound_speed": 330.0,
+      "distance_offset": 25.0,
+      "noise_std": 0.0,
+      "splauts": 48,
+      "latent_dim": 16,
+      "seed": 7,
+      "harmonic_count": 1,
+      "harmonic_rolloff": 0.7,
+      "frequency_scale": 1.0,
+      "call_families": [
+        "tonal",
+        "sweep",
+        "pulse"
+      ],
+      "absorption_db_per_km": 0.0,
+      "absorption_power": 2.0,
+      "absorption_distance_bins": 8,
+      "power_spreading_exponent": 1.0
+    },
+    "weights": {
+      "reconstruction": 10.0,
+      "self_energy": 1.0,
+      "spatial_sparsity": 0.08,
+      "multisensor": 4.0,
+      "gate_scale": 0.005,
+      "min_stations": 4.0,
+      "correlation_threshold": 0.15,
+      "correlation_temperature": 0.03,
+      "spatial_radius_m": 15.0
+    },
+    "splits": {
+      "fit": [
+        2,
+        19,
+        31,
+        55,
+        73,
+        85,
+        86,
+        134,
+        137,
+        176,
+        185,
+        189,
+        207,
+        209,
+        211,
+        212
+      ],
+      "validation": [
+        9,
+        10,
+        16,
+        22,
+        33,
+        44,
+        50,
+        84,
+        89,
+        93,
+        98,
+        138,
+        146,
+        152,
+        174,
+        194
+      ],
+      "test": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        20,
+        21,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        32,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        46,
+        47,
+        48,
+        49,
+        51,
+        52,
+        53,
+        54,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        87,
+        88,
+        90,
+        91,
+        92,
+        94,
+        95,
+        96,
+        97,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        135,
+        136,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        147,
+        148,
+        149,
+        150,
+        151,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        175,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        186,
+        187,
+        188,
+        190,
+        191,
+        192,
+        193,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        208,
+        210
+      ]
+    },
+    "mapping": {
+      "csv_rows": 1153,
+      "wav_channels": 1024,
+      "metadata_tracks_absent_from_wav": [
+        1025,
+        1026,
+        1027,
+        1028,
+        1029,
+        1030,
+        1031,
+        1032,
+        1033,
+        1034,
+        1035,
+        1036,
+        1037,
+        1038,
+        1039,
+        1040,
+        1041,
+        1042,
+        1043,
+        1044,
+        1045,
+        1046,
+        1047,
+        1048,
+        1049,
+        1050,
+        1051,
+        1052,
+        1053,
+        1054,
+        1055,
+        1056,
+        1057,
+        1058,
+        1059,
+        1060,
+        1061,
+        1062,
+        1063,
+        1064,
+        1065,
+        1066,
+        1067,
+        1068,
+        1069,
+        1070,
+        1071,
+        1072,
+        1073,
+        1074,
+        1075,
+        1076,
+        1077,
+        1078,
+        1079,
+        1080,
+        1081,
+        1082,
+        1083,
+        1084,
+        1085,
+        1086,
+        1087,
+        1088,
+        1089,
+        1090,
+        1091,
+        1092,
+        1093,
+        1094,
+        1095,
+        1096,
+        1097,
+        1098,
+        1099,
+        1100,
+        1101,
+        1102,
+        1103,
+        1104,
+        1105,
+        1106,
+        1107,
+        1108,
+        1109,
+        1110,
+        1111,
+        1112,
+        1113,
+        1114,
+        1115,
+        1116,
+        1117,
+        1118,
+        1119,
+        1120,
+        1121,
+        1122,
+        1123,
+        1124,
+        1125,
+        1126,
+        1127,
+        1128,
+        1129,
+        1130,
+        1131,
+        1132,
+        1133,
+        1134,
+        1135,
+        1136,
+        1137,
+        1138,
+        1139,
+        1140,
+        1141,
+        1142,
+        1143,
+        1144,
+        1145,
+        1146,
+        1147,
+        1148,
+        1149,
+        1150,
+        1151,
+        1152,
+        1153
+      ],
+      "nearby_metadata_tracks_absent_from_wav": [
+        1025,
+        1026,
+        1027,
+        1028,
+        1085,
+        1086,
+        1087,
+        1088,
+        1089,
+        1090,
+        1091,
+        1092,
+        1093,
+        1094,
+        1095,
+        1096
+      ],
+      "mapping_assumption": "Available CSV TrackIndex values refer directly to WAV channels; absent tracks are excluded. This does not verify export ordering.",
+      "radius_m": 500.0,
+      "origin_lat_lon": [
+        0.4560107,
+        36.8429853
+      ],
+      "split_seed": 2026
+    },
+    "power_scale": 7.382659587829021e-12,
+    "preprocessing": "Full original power; no floor subtraction; common fit-only numerical scale",
+    "source_signature": {
+      "audio": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.wav",
+      "size": 491528250,
+      "mtime_ns": 1749722570805926700,
+      "metadata": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.csv",
+      "metadata_mtime_ns": 1749722570811843000,
+      "radius": 500.0,
+      "fit_count": 16,
+      "validation_count": 16,
+      "seed": 2026,
+      "band": [
+        8.0,
+        80.0
+      ]
+    },
+    "search_origin_m": [
+      -603.2715297560574,
+      -442.1972312524981
+    ],
+    "padding_s": 5,
+    "steps": 600,
+    "warmup_steps": 200,
+    "seed": 101,
+    "capacity": 5,
+    "grid_size": 15,
+    "band_hz": [
+      8.0,
+      35.0
+    ],
+    "native_windows_s": [
+      30,
+      34,
+      38,
+      42
+    ],
+    "control_window_s": 38,
+    "selection": "Fixed final fit objective; no real-data hyperparameter selection; validation/test excluded from source fitting"
+  },
+  "primary_summary": {
+    "native_windows": 4,
+    "active_sites_by_window": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "mean_window_test_raw_nmse": 1.0,
+    "mean_window_test_dynamic_nmse": 1.0,
+    "mean_window_test_dynamic_correlation": 0.0,
+    "mean_window_test_shared_observed_energy_fraction": 0.0,
+    "mean_window_test_interpolation_raw_nmse": 368.05838775634766,
+    "mean_window_test_interpolation_dynamic_nmse": 411.39916229248047
+  },
+  "optimization_diagnostic": "On 38\u201346 s, first optimize with zero spatial penalty for 200 steps, then ramp to the original 0.08 by step 500. Selection always minimizes the same full final objective over all iterates including all-self. Loss weights are not selected by test scores.",
+  "station_protocol": "16 fit / 16 validation / 181 evaluation-only stations, selected by coordinates with seed 2026 within 500 m of acoustic M04; fitting, initialization and amplitudes never use validation or test spectra.",
+  "metrics": "Shared-only station-balanced power NMSE and per-frequency temporally centered dynamic NMSE/correlation. Zero or constant dynamic prediction has dynamic NMSE 1. Total self+shared reconstruction is not separation evidence.",
+  "studies": {
+    "seismic_self_shared_low": {
+      "protocol": {
+        "config": {
+          "sample_rate": 500,
+          "n_fft": 500,
+          "hop_length": 50,
+          "scene_duration": 8.0,
+          "call_duration": 5.0,
+          "area_size": 1100.9124070615253,
+          "sound_speed": 330.0,
+          "distance_offset": 25.0,
+          "noise_std": 0.0,
+          "splauts": 48,
+          "latent_dim": 16,
+          "seed": 7,
+          "harmonic_count": 1,
+          "harmonic_rolloff": 0.7,
+          "frequency_scale": 1.0,
+          "call_families": [
+            "tonal",
+            "sweep",
+            "pulse"
+          ],
+          "absorption_db_per_km": 0.0,
+          "absorption_power": 2.0,
+          "absorption_distance_bins": 8,
+          "power_spreading_exponent": 1.0
+        },
+        "weights": {
+          "reconstruction": 10.0,
+          "self_energy": 1.0,
+          "spatial_sparsity": 0.08,
+          "multisensor": 4.0,
+          "gate_scale": 0.005,
+          "min_stations": 4.0,
+          "correlation_threshold": 0.15,
+          "correlation_temperature": 0.03,
+          "spatial_radius_m": 15.0
+        },
+        "splits": {
+          "fit": [
+            2,
+            19,
+            31,
+            55,
+            73,
+            85,
+            86,
+            134,
+            137,
+            176,
+            185,
+            189,
+            207,
+            209,
+            211,
+            212
+          ],
+          "validation": [
+            9,
+            10,
+            16,
+            22,
+            33,
+            44,
+            50,
+            84,
+            89,
+            93,
+            98,
+            138,
+            146,
+            152,
+            174,
+            194
+          ],
+          "test": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            32,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            49,
+            51,
+            52,
+            53,
+            54,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            87,
+            88,
+            90,
+            91,
+            92,
+            94,
+            95,
+            96,
+            97,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            135,
+            136,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            147,
+            148,
+            149,
+            150,
+            151,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            175,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            186,
+            187,
+            188,
+            190,
+            191,
+            192,
+            193,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            208,
+            210
+          ]
+        },
+        "mapping": {
+          "csv_rows": 1153,
+          "wav_channels": 1024,
+          "metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1029,
+            1030,
+            1031,
+            1032,
+            1033,
+            1034,
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041,
+            1042,
+            1043,
+            1044,
+            1045,
+            1046,
+            1047,
+            1048,
+            1049,
+            1050,
+            1051,
+            1052,
+            1053,
+            1054,
+            1055,
+            1056,
+            1057,
+            1058,
+            1059,
+            1060,
+            1061,
+            1062,
+            1063,
+            1064,
+            1065,
+            1066,
+            1067,
+            1068,
+            1069,
+            1070,
+            1071,
+            1072,
+            1073,
+            1074,
+            1075,
+            1076,
+            1077,
+            1078,
+            1079,
+            1080,
+            1081,
+            1082,
+            1083,
+            1084,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096,
+            1097,
+            1098,
+            1099,
+            1100,
+            1101,
+            1102,
+            1103,
+            1104,
+            1105,
+            1106,
+            1107,
+            1108,
+            1109,
+            1110,
+            1111,
+            1112,
+            1113,
+            1114,
+            1115,
+            1116,
+            1117,
+            1118,
+            1119,
+            1120,
+            1121,
+            1122,
+            1123,
+            1124,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            1131,
+            1132,
+            1133,
+            1134,
+            1135,
+            1136,
+            1137,
+            1138,
+            1139,
+            1140,
+            1141,
+            1142,
+            1143,
+            1144,
+            1145,
+            1146,
+            1147,
+            1148,
+            1149,
+            1150,
+            1151,
+            1152,
+            1153
+          ],
+          "nearby_metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096
+          ],
+          "mapping_assumption": "Available CSV TrackIndex values refer directly to WAV channels; absent tracks are excluded. This does not verify export ordering.",
+          "radius_m": 500.0,
+          "origin_lat_lon": [
+            0.4560107,
+            36.8429853
+          ],
+          "split_seed": 2026
+        },
+        "power_scale": 7.382659587829021e-12,
+        "preprocessing": "Full original power; no floor subtraction; common fit-only numerical scale",
+        "source_signature": {
+          "audio": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.wav",
+          "size": 491528250,
+          "mtime_ns": 1749722570805926700,
+          "metadata": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.csv",
+          "metadata_mtime_ns": 1749722570811843000,
+          "radius": 500.0,
+          "fit_count": 16,
+          "validation_count": 16,
+          "seed": 2026,
+          "band": [
+            8.0,
+            80.0
+          ]
+        },
+        "search_origin_m": [
+          -603.2715297560574,
+          -442.1972312524981
+        ],
+        "padding_s": 5,
+        "steps": 600,
+        "warmup_steps": 200,
+        "seed": 101,
+        "capacity": 5,
+        "grid_size": 15,
+        "band_hz": [
+          8.0,
+          35.0
+        ],
+        "native_windows_s": [
+          30,
+          34,
+          38,
+          42
+        ],
+        "control_window_s": 38,
+        "selection": "Fixed final fit objective; no real-data hyperparameter selection; validation/test excluded from source fitting"
+      },
+      "summary": {
+        "native_windows": 4,
+        "active_sites_by_window": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "mean_window_test_raw_nmse": 1.0,
+        "mean_window_test_dynamic_nmse": 1.0,
+        "mean_window_test_dynamic_correlation": 0.0,
+        "mean_window_test_shared_observed_energy_fraction": 0.0,
+        "mean_window_test_interpolation_raw_nmse": 368.05838775634766,
+        "mean_window_test_interpolation_dynamic_nmse": 411.39916229248047
+      },
+      "cases": [
+        {
+          "start_s": 30,
+          "control": "native",
+          "directory": "window_030.0_native",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 400.6840515136719,
+              "median": 5.4080586433410645
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 443.9217834472656,
+              "median": 6.407661437988281
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.023539790883660316,
+              "median": 0.009980762377381325
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 58.885536193847656,
+              "median": 1.094398021697998
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 69.94200897216797,
+              "median": 1.5798842906951904
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.07775174081325531,
+              "median": 0.07426784932613373
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 34,
+          "control": "native",
+          "directory": "window_034.0_native",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 244.3698272705078,
+              "median": 1.3260210752487183
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 255.85276794433594,
+              "median": 1.8514885902404785
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0537593737244606,
+              "median": 0.015485948882997036
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 70.6565170288086,
+              "median": 0.9564720392227173
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 75.41634368896484,
+              "median": 1.195915699005127
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.05220482498407364,
+              "median": 0.04140806943178177
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 38.0,
+          "control": "geometry_shuffle",
+          "directory": "window_038.0_geometry_shuffle",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 38,
+          "control": "native",
+          "directory": "window_038.0_native",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 38.0,
+          "control": "restart",
+          "directory": "window_038.0_restart",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 38.0,
+          "control": "time_shuffle",
+          "directory": "window_038.0_time_shuffle",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        },
+        {
+          "start_s": 42,
+          "control": "native",
+          "directory": "window_042.0_native",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 253.08702087402344,
+              "median": 3.9916329383850098
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 235.0883331298828,
+              "median": 5.573298454284668
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.031642764806747437,
+              "median": 0.01378214918076992
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 52.54486846923828,
+              "median": 1.6495709419250488
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 56.51075744628906,
+              "median": 2.4979259967803955
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.059857726097106934,
+              "median": 0.02654053270816803
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "seismic_self_shared_wide": {
+      "protocol": {
+        "config": {
+          "sample_rate": 500,
+          "n_fft": 500,
+          "hop_length": 50,
+          "scene_duration": 8.0,
+          "call_duration": 5.0,
+          "area_size": 1100.9124070615253,
+          "sound_speed": 330.0,
+          "distance_offset": 25.0,
+          "noise_std": 0.0,
+          "splauts": 48,
+          "latent_dim": 16,
+          "seed": 7,
+          "harmonic_count": 1,
+          "harmonic_rolloff": 0.7,
+          "frequency_scale": 1.0,
+          "call_families": [
+            "tonal",
+            "sweep",
+            "pulse"
+          ],
+          "absorption_db_per_km": 0.0,
+          "absorption_power": 2.0,
+          "absorption_distance_bins": 8,
+          "power_spreading_exponent": 1.0
+        },
+        "weights": {
+          "reconstruction": 10.0,
+          "self_energy": 1.0,
+          "spatial_sparsity": 0.08,
+          "multisensor": 4.0,
+          "gate_scale": 0.005,
+          "min_stations": 4.0,
+          "correlation_threshold": 0.15,
+          "correlation_temperature": 0.03,
+          "spatial_radius_m": 15.0
+        },
+        "splits": {
+          "fit": [
+            2,
+            19,
+            31,
+            55,
+            73,
+            85,
+            86,
+            134,
+            137,
+            176,
+            185,
+            189,
+            207,
+            209,
+            211,
+            212
+          ],
+          "validation": [
+            9,
+            10,
+            16,
+            22,
+            33,
+            44,
+            50,
+            84,
+            89,
+            93,
+            98,
+            138,
+            146,
+            152,
+            174,
+            194
+          ],
+          "test": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            32,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            49,
+            51,
+            52,
+            53,
+            54,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            87,
+            88,
+            90,
+            91,
+            92,
+            94,
+            95,
+            96,
+            97,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            135,
+            136,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            147,
+            148,
+            149,
+            150,
+            151,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            175,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            186,
+            187,
+            188,
+            190,
+            191,
+            192,
+            193,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            208,
+            210
+          ]
+        },
+        "mapping": {
+          "csv_rows": 1153,
+          "wav_channels": 1024,
+          "metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1029,
+            1030,
+            1031,
+            1032,
+            1033,
+            1034,
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041,
+            1042,
+            1043,
+            1044,
+            1045,
+            1046,
+            1047,
+            1048,
+            1049,
+            1050,
+            1051,
+            1052,
+            1053,
+            1054,
+            1055,
+            1056,
+            1057,
+            1058,
+            1059,
+            1060,
+            1061,
+            1062,
+            1063,
+            1064,
+            1065,
+            1066,
+            1067,
+            1068,
+            1069,
+            1070,
+            1071,
+            1072,
+            1073,
+            1074,
+            1075,
+            1076,
+            1077,
+            1078,
+            1079,
+            1080,
+            1081,
+            1082,
+            1083,
+            1084,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096,
+            1097,
+            1098,
+            1099,
+            1100,
+            1101,
+            1102,
+            1103,
+            1104,
+            1105,
+            1106,
+            1107,
+            1108,
+            1109,
+            1110,
+            1111,
+            1112,
+            1113,
+            1114,
+            1115,
+            1116,
+            1117,
+            1118,
+            1119,
+            1120,
+            1121,
+            1122,
+            1123,
+            1124,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            1131,
+            1132,
+            1133,
+            1134,
+            1135,
+            1136,
+            1137,
+            1138,
+            1139,
+            1140,
+            1141,
+            1142,
+            1143,
+            1144,
+            1145,
+            1146,
+            1147,
+            1148,
+            1149,
+            1150,
+            1151,
+            1152,
+            1153
+          ],
+          "nearby_metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096
+          ],
+          "mapping_assumption": "Available CSV TrackIndex values refer directly to WAV channels; absent tracks are excluded. This does not verify export ordering.",
+          "radius_m": 500.0,
+          "origin_lat_lon": [
+            0.4560107,
+            36.8429853
+          ],
+          "split_seed": 2026
+        },
+        "power_scale": 7.382659587829021e-12,
+        "preprocessing": "Full original power; no floor subtraction; common fit-only numerical scale",
+        "source_signature": {
+          "audio": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.wav",
+          "size": 491528250,
+          "mtime_ns": 1749722570805926700,
+          "metadata": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.csv",
+          "metadata_mtime_ns": 1749722570811843000,
+          "radius": 500.0,
+          "fit_count": 16,
+          "validation_count": 16,
+          "seed": 2026,
+          "band": [
+            8.0,
+            80.0
+          ]
+        },
+        "search_origin_m": [
+          -603.2715297560574,
+          -442.1972312524981
+        ],
+        "padding_s": 5,
+        "steps": 600,
+        "warmup_steps": 200,
+        "seed": 101,
+        "capacity": 5,
+        "grid_size": 15,
+        "band_hz": [
+          8.0,
+          80.0
+        ],
+        "native_windows_s": [
+          30,
+          34,
+          38,
+          42
+        ],
+        "control_window_s": 38,
+        "selection": "Fixed final fit objective; no real-data hyperparameter selection; validation/test excluded from source fitting"
+      },
+      "summary": {
+        "native_windows": 1,
+        "active_sites_by_window": [
+          0
+        ],
+        "mean_window_test_raw_nmse": 1.0,
+        "mean_window_test_dynamic_nmse": 1.0,
+        "mean_window_test_dynamic_correlation": 0.0,
+        "mean_window_test_shared_observed_energy_fraction": 0.0,
+        "mean_window_test_interpolation_raw_nmse": 129.98394775390625,
+        "mean_window_test_interpolation_dynamic_nmse": 147.38540649414062
+      },
+      "cases": [
+        {
+          "start_s": 38.0,
+          "control": "native",
+          "directory": "window_038.0_native",
+          "best_step": 0,
+          "objective": 1.0,
+          "self_fraction": 1.0,
+          "active_sites": 0,
+          "active_candidates": [],
+          "test": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 129.98394775390625,
+              "median": 1.4377703666687012
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 147.38540649414062,
+              "median": 1.896158218383789
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.07377835363149643,
+              "median": 0.011572388000786304
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_nmse": {
+              "mean": 1.0,
+              "median": 1.0
+            },
+            "dynamic_correlation": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "interpolation_raw_nmse": {
+              "mean": 21.236839294433594,
+              "median": 0.9273643493652344
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 23.991186141967773,
+              "median": 1.1794909238815308
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.10887598246335983,
+              "median": 0.03838648274540901
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0,
+              "median": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "seismic_self_shared_no_sparse": {
+      "protocol": {
+        "config": {
+          "sample_rate": 500,
+          "n_fft": 500,
+          "hop_length": 50,
+          "scene_duration": 8.0,
+          "call_duration": 5.0,
+          "area_size": 1100.9124070615253,
+          "sound_speed": 330.0,
+          "distance_offset": 25.0,
+          "noise_std": 0.0,
+          "splauts": 48,
+          "latent_dim": 16,
+          "seed": 7,
+          "harmonic_count": 1,
+          "harmonic_rolloff": 0.7,
+          "frequency_scale": 1.0,
+          "call_families": [
+            "tonal",
+            "sweep",
+            "pulse"
+          ],
+          "absorption_db_per_km": 0.0,
+          "absorption_power": 2.0,
+          "absorption_distance_bins": 8,
+          "power_spreading_exponent": 1.0
+        },
+        "weights": {
+          "reconstruction": 10.0,
+          "self_energy": 1.0,
+          "spatial_sparsity": 0.0,
+          "multisensor": 4.0,
+          "gate_scale": 0.005,
+          "min_stations": 4.0,
+          "correlation_threshold": 0.15,
+          "correlation_temperature": 0.03,
+          "spatial_radius_m": 15.0
+        },
+        "splits": {
+          "fit": [
+            2,
+            19,
+            31,
+            55,
+            73,
+            85,
+            86,
+            134,
+            137,
+            176,
+            185,
+            189,
+            207,
+            209,
+            211,
+            212
+          ],
+          "validation": [
+            9,
+            10,
+            16,
+            22,
+            33,
+            44,
+            50,
+            84,
+            89,
+            93,
+            98,
+            138,
+            146,
+            152,
+            174,
+            194
+          ],
+          "test": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            32,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            49,
+            51,
+            52,
+            53,
+            54,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            87,
+            88,
+            90,
+            91,
+            92,
+            94,
+            95,
+            96,
+            97,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            135,
+            136,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            147,
+            148,
+            149,
+            150,
+            151,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            175,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            186,
+            187,
+            188,
+            190,
+            191,
+            192,
+            193,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            208,
+            210
+          ]
+        },
+        "mapping": {
+          "csv_rows": 1153,
+          "wav_channels": 1024,
+          "metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1029,
+            1030,
+            1031,
+            1032,
+            1033,
+            1034,
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041,
+            1042,
+            1043,
+            1044,
+            1045,
+            1046,
+            1047,
+            1048,
+            1049,
+            1050,
+            1051,
+            1052,
+            1053,
+            1054,
+            1055,
+            1056,
+            1057,
+            1058,
+            1059,
+            1060,
+            1061,
+            1062,
+            1063,
+            1064,
+            1065,
+            1066,
+            1067,
+            1068,
+            1069,
+            1070,
+            1071,
+            1072,
+            1073,
+            1074,
+            1075,
+            1076,
+            1077,
+            1078,
+            1079,
+            1080,
+            1081,
+            1082,
+            1083,
+            1084,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096,
+            1097,
+            1098,
+            1099,
+            1100,
+            1101,
+            1102,
+            1103,
+            1104,
+            1105,
+            1106,
+            1107,
+            1108,
+            1109,
+            1110,
+            1111,
+            1112,
+            1113,
+            1114,
+            1115,
+            1116,
+            1117,
+            1118,
+            1119,
+            1120,
+            1121,
+            1122,
+            1123,
+            1124,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            1131,
+            1132,
+            1133,
+            1134,
+            1135,
+            1136,
+            1137,
+            1138,
+            1139,
+            1140,
+            1141,
+            1142,
+            1143,
+            1144,
+            1145,
+            1146,
+            1147,
+            1148,
+            1149,
+            1150,
+            1151,
+            1152,
+            1153
+          ],
+          "nearby_metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096
+          ],
+          "mapping_assumption": "Available CSV TrackIndex values refer directly to WAV channels; absent tracks are excluded. This does not verify export ordering.",
+          "radius_m": 500.0,
+          "origin_lat_lon": [
+            0.4560107,
+            36.8429853
+          ],
+          "split_seed": 2026
+        },
+        "power_scale": 7.382659587829021e-12,
+        "preprocessing": "Full original power; no floor subtraction; common fit-only numerical scale",
+        "source_signature": {
+          "audio": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.wav",
+          "size": 491528250,
+          "mtime_ns": 1749722570805926700,
+          "metadata": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.csv",
+          "metadata_mtime_ns": 1749722570811843000,
+          "radius": 500.0,
+          "fit_count": 16,
+          "validation_count": 16,
+          "seed": 2026,
+          "band": [
+            8.0,
+            80.0
+          ]
+        },
+        "search_origin_m": [
+          -603.2715297560574,
+          -442.1972312524981
+        ],
+        "padding_s": 5,
+        "steps": 600,
+        "warmup_steps": 200,
+        "seed": 101,
+        "capacity": 5,
+        "grid_size": 15,
+        "band_hz": [
+          8.0,
+          35.0
+        ],
+        "native_windows_s": [
+          30,
+          34,
+          38,
+          42
+        ],
+        "control_window_s": 38,
+        "selection": "Fixed final fit objective; no real-data hyperparameter selection; validation/test excluded from source fitting"
+      },
+      "summary": {
+        "native_windows": 1,
+        "active_sites_by_window": [
+          2
+        ],
+        "mean_window_test_raw_nmse": 0.8661205768585205,
+        "mean_window_test_dynamic_nmse": 1.0058399438858032,
+        "mean_window_test_dynamic_correlation": -0.0020289074163883924,
+        "mean_window_test_shared_observed_energy_fraction": 0.20227636396884918,
+        "mean_window_test_interpolation_raw_nmse": 574.0926513671875,
+        "mean_window_test_interpolation_dynamic_nmse": 710.7337646484375
+      },
+      "cases": [
+        {
+          "start_s": 38.0,
+          "control": "native",
+          "directory": "window_038.0_native",
+          "best_step": 595,
+          "objective": 0.8237583041191101,
+          "self_fraction": 0.7588956952095032,
+          "active_sites": 2,
+          "active_candidates": [
+            {
+              "group": 1,
+              "active": true,
+              "gate": 0.1972503960132599,
+              "support": 4.487387180328369,
+              "east_m": -278.0972743849636,
+              "north_m": -285.0093803003497,
+              "emission_centroid_s": 39.536940813064575
+            },
+            {
+              "group": 3,
+              "active": true,
+              "gate": 0.10491006076335907,
+              "support": 4.778177738189697,
+              "east_m": -214.9922633986355,
+              "north_m": 147.9874611303144,
+              "emission_centroid_s": 42.04187345504761
+            }
+          ],
+          "test": {
+            "raw_nmse": {
+              "mean": 0.8661205768585205,
+              "median": 0.9018163084983826
+            },
+            "dynamic_nmse": {
+              "mean": 1.0058399438858032,
+              "median": 1.0004408359527588
+            },
+            "dynamic_correlation": {
+              "mean": -0.0020289074163883924,
+              "median": 0.019897615537047386
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.20227636396884918,
+              "median": 0.18949048221111298
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.06603077799081802,
+              "median": 0.03571508079767227
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 0.8609060049057007,
+              "median": 0.88036048412323
+            },
+            "dynamic_nmse": {
+              "mean": 1.00971257686615,
+              "median": 1.0070289373397827
+            },
+            "dynamic_correlation": {
+              "mean": -0.06409408152103424,
+              "median": -0.042624011635780334
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.21546608209609985,
+              "median": 0.20748315751552582
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.06557916849851608,
+              "median": 0.05068688839673996
+            }
+          }
+        }
+      ]
+    },
+    "seismic_self_shared_explore": {
+      "protocol": {
+        "config": {
+          "sample_rate": 500,
+          "n_fft": 500,
+          "hop_length": 50,
+          "scene_duration": 8.0,
+          "call_duration": 5.0,
+          "area_size": 1100.9124070615253,
+          "sound_speed": 330.0,
+          "distance_offset": 25.0,
+          "noise_std": 0.0,
+          "splauts": 48,
+          "latent_dim": 16,
+          "seed": 7,
+          "harmonic_count": 1,
+          "harmonic_rolloff": 0.7,
+          "frequency_scale": 1.0,
+          "call_families": [
+            "tonal",
+            "sweep",
+            "pulse"
+          ],
+          "absorption_db_per_km": 0.0,
+          "absorption_power": 2.0,
+          "absorption_distance_bins": 8,
+          "power_spreading_exponent": 1.0
+        },
+        "weights": {
+          "reconstruction": 10.0,
+          "self_energy": 1.0,
+          "spatial_sparsity": 0.08,
+          "multisensor": 4.0,
+          "gate_scale": 0.005,
+          "min_stations": 4.0,
+          "correlation_threshold": 0.15,
+          "correlation_temperature": 0.03,
+          "spatial_radius_m": 15.0
+        },
+        "splits": {
+          "fit": [
+            2,
+            19,
+            31,
+            55,
+            73,
+            85,
+            86,
+            134,
+            137,
+            176,
+            185,
+            189,
+            207,
+            209,
+            211,
+            212
+          ],
+          "validation": [
+            9,
+            10,
+            16,
+            22,
+            33,
+            44,
+            50,
+            84,
+            89,
+            93,
+            98,
+            138,
+            146,
+            152,
+            174,
+            194
+          ],
+          "test": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            32,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            49,
+            51,
+            52,
+            53,
+            54,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            87,
+            88,
+            90,
+            91,
+            92,
+            94,
+            95,
+            96,
+            97,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            135,
+            136,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            147,
+            148,
+            149,
+            150,
+            151,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            175,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            186,
+            187,
+            188,
+            190,
+            191,
+            192,
+            193,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            208,
+            210
+          ]
+        },
+        "mapping": {
+          "csv_rows": 1153,
+          "wav_channels": 1024,
+          "metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1029,
+            1030,
+            1031,
+            1032,
+            1033,
+            1034,
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041,
+            1042,
+            1043,
+            1044,
+            1045,
+            1046,
+            1047,
+            1048,
+            1049,
+            1050,
+            1051,
+            1052,
+            1053,
+            1054,
+            1055,
+            1056,
+            1057,
+            1058,
+            1059,
+            1060,
+            1061,
+            1062,
+            1063,
+            1064,
+            1065,
+            1066,
+            1067,
+            1068,
+            1069,
+            1070,
+            1071,
+            1072,
+            1073,
+            1074,
+            1075,
+            1076,
+            1077,
+            1078,
+            1079,
+            1080,
+            1081,
+            1082,
+            1083,
+            1084,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096,
+            1097,
+            1098,
+            1099,
+            1100,
+            1101,
+            1102,
+            1103,
+            1104,
+            1105,
+            1106,
+            1107,
+            1108,
+            1109,
+            1110,
+            1111,
+            1112,
+            1113,
+            1114,
+            1115,
+            1116,
+            1117,
+            1118,
+            1119,
+            1120,
+            1121,
+            1122,
+            1123,
+            1124,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            1131,
+            1132,
+            1133,
+            1134,
+            1135,
+            1136,
+            1137,
+            1138,
+            1139,
+            1140,
+            1141,
+            1142,
+            1143,
+            1144,
+            1145,
+            1146,
+            1147,
+            1148,
+            1149,
+            1150,
+            1151,
+            1152,
+            1153
+          ],
+          "nearby_metadata_tracks_absent_from_wav": [
+            1025,
+            1026,
+            1027,
+            1028,
+            1085,
+            1086,
+            1087,
+            1088,
+            1089,
+            1090,
+            1091,
+            1092,
+            1093,
+            1094,
+            1095,
+            1096
+          ],
+          "mapping_assumption": "Available CSV TrackIndex values refer directly to WAV channels; absent tracks are excluded. This does not verify export ordering.",
+          "radius_m": 500.0,
+          "origin_lat_lon": [
+            0.4560107,
+            36.8429853
+          ],
+          "split_seed": 2026
+        },
+        "power_scale": 7.382659587829021e-12,
+        "preprocessing": "Full original power; no floor subtraction; common fit-only numerical scale",
+        "source_signature": {
+          "audio": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.wav",
+          "size": 491528250,
+          "mtime_ns": 1749722570805926700,
+          "metadata": "C:\\CloudProjects\\2026\\Research\\Projects\\NeuralSplauts\\Dev\\NeuralSplauts\\real_world\\source_data\\elephant rumble\\multi_seis_20230308_104500.csv",
+          "metadata_mtime_ns": 1749722570811843000,
+          "radius": 500.0,
+          "fit_count": 16,
+          "validation_count": 16,
+          "seed": 2026,
+          "band": [
+            8.0,
+            80.0
+          ]
+        },
+        "search_origin_m": [
+          -603.2715297560574,
+          -442.1972312524981
+        ],
+        "padding_s": 5,
+        "steps": 600,
+        "warmup_steps": 200,
+        "seed": 101,
+        "capacity": 5,
+        "grid_size": 15,
+        "band_hz": [
+          8.0,
+          35.0
+        ],
+        "spatial_exploration_steps": 200,
+        "native_windows_s": [
+          30,
+          34,
+          38,
+          42
+        ],
+        "control_window_s": 38,
+        "selection": "Fixed final fit objective; no real-data hyperparameter selection; validation/test excluded from source fitting"
+      },
+      "summary": {
+        "native_windows": 1,
+        "active_sites_by_window": [
+          2
+        ],
+        "mean_window_test_raw_nmse": 0.864648163318634,
+        "mean_window_test_dynamic_nmse": 1.0006191730499268,
+        "mean_window_test_dynamic_correlation": 0.03407907113432884,
+        "mean_window_test_shared_observed_energy_fraction": 0.19685092568397522,
+        "mean_window_test_interpolation_raw_nmse": 574.0926513671875,
+        "mean_window_test_interpolation_dynamic_nmse": 710.7337646484375
+      },
+      "cases": [
+        {
+          "start_s": 38.0,
+          "control": "geometry_shuffle",
+          "directory": "window_038.0_geometry_shuffle",
+          "best_step": 595,
+          "objective": 0.9877628684043884,
+          "self_fraction": 0.7784493565559387,
+          "active_sites": 2,
+          "active_candidates": [
+            {
+              "group": 4,
+              "active": true,
+              "gate": 0.12690868973731995,
+              "support": 4.709753036499023,
+              "east_m": 72.77229348613014,
+              "north_m": -22.533046682185613,
+              "emission_centroid_s": 42.66328263282776
+            },
+            {
+              "group": 5,
+              "active": true,
+              "gate": 0.15051335096359253,
+              "support": 5.310550212860107,
+              "east_m": 483.56953469706764,
+              "north_m": -6.1666221216387385,
+              "emission_centroid_s": 39.94812750816345
+            }
+          ],
+          "test": {
+            "raw_nmse": {
+              "mean": 0.8874359130859375,
+              "median": 0.9440062046051025
+            },
+            "dynamic_nmse": {
+              "mean": 1.0092296600341797,
+              "median": 1.000870943069458
+            },
+            "dynamic_correlation": {
+              "mean": -0.003155202604830265,
+              "median": -0.006379261147230864
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.1691449135541916,
+              "median": 0.12264036387205124
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.05324182286858559,
+              "median": 0.016334040090441704
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 0.8852778673171997,
+              "median": 0.9283151626586914
+            },
+            "dynamic_nmse": {
+              "mean": 1.0088520050048828,
+              "median": 1.0005052089691162
+            },
+            "dynamic_correlation": {
+              "mean": -0.0029934593476355076,
+              "median": 0.010923883877694607
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.15911166369915009,
+              "median": 0.1144418865442276
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.04437990486621857,
+              "median": 0.014186070300638676
+            }
+          }
+        },
+        {
+          "start_s": 38.0,
+          "control": "native",
+          "directory": "window_038.0_native",
+          "best_step": 597,
+          "objective": 0.9767192602157593,
+          "self_fraction": 0.7632070779800415,
+          "active_sites": 2,
+          "active_candidates": [
+            {
+              "group": 2,
+              "active": true,
+              "gate": 0.11363964527845383,
+              "support": 4.125412940979004,
+              "east_m": -80.76158102558861,
+              "north_m": -83.31496806890436,
+              "emission_centroid_s": 38.45963990688324
+            },
+            {
+              "group": 3,
+              "active": true,
+              "gate": 0.1805058717727661,
+              "support": 4.9313788414001465,
+              "east_m": -315.83793600605736,
+              "north_m": 21.43463520258001,
+              "emission_centroid_s": 41.55309820175171
+            }
+          ],
+          "test": {
+            "raw_nmse": {
+              "mean": 0.864648163318634,
+              "median": 0.9006140232086182
+            },
+            "dynamic_nmse": {
+              "mean": 1.0006191730499268,
+              "median": 0.9999982714653015
+            },
+            "dynamic_correlation": {
+              "mean": 0.03407907113432884,
+              "median": 0.030350463464856148
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.19685092568397522,
+              "median": 0.1760445535182953
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.05743437632918358,
+              "median": 0.03296850621700287
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 0.8511224985122681,
+              "median": 0.8690165281295776
+            },
+            "dynamic_nmse": {
+              "mean": 1.003233551979065,
+              "median": 1.000486969947815
+            },
+            "dynamic_correlation": {
+              "mean": 0.026442304253578186,
+              "median": 0.01891031488776207
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.21959136426448822,
+              "median": 0.20723505318164825
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.06993329524993896,
+              "median": 0.041758716106414795
+            }
+          }
+        },
+        {
+          "start_s": 38.0,
+          "control": "time_shuffle",
+          "directory": "window_038.0_time_shuffle",
+          "best_step": 494,
+          "objective": 0.9363104701042175,
+          "self_fraction": 0.805253803730011,
+          "active_sites": 1,
+          "active_candidates": [
+            {
+              "group": 3,
+              "active": true,
+              "gate": 0.2395254373550415,
+              "support": 4.03885555267334,
+              "east_m": 258.13032571269264,
+              "north_m": 570.9053078100019,
+              "emission_centroid_s": 39.49533772468567
+            }
+          ],
+          "test": {
+            "raw_nmse": {
+              "mean": 0.8797000646591187,
+              "median": 0.9354987740516663
+            },
+            "dynamic_nmse": {
+              "mean": 1.0065170526504517,
+              "median": 1.000495195388794
+            },
+            "dynamic_correlation": {
+              "mean": -0.018364327028393745,
+              "median": -0.017032984644174576
+            },
+            "interpolation_raw_nmse": {
+              "mean": 574.0926513671875,
+              "median": 1.6800569295883179
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 710.7337646484375,
+              "median": 2.389981985092163
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.0374445877969265,
+              "median": 0.007995604537427425
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.17611163854599,
+              "median": 0.1332077980041504
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.0505344532430172,
+              "median": 0.01897883228957653
+            }
+          },
+          "validation": {
+            "raw_nmse": {
+              "mean": 0.8852227926254272,
+              "median": 0.8875142335891724
+            },
+            "dynamic_nmse": {
+              "mean": 1.0028636455535889,
+              "median": 0.9997150897979736
+            },
+            "dynamic_correlation": {
+              "mean": 0.00886710174381733,
+              "median": 0.03216467797756195
+            },
+            "interpolation_raw_nmse": {
+              "mean": 125.06661224365234,
+              "median": 0.9670686721801758
+            },
+            "interpolation_dynamic_nmse": {
+              "mean": 160.8636016845703,
+              "median": 1.437685251235962
+            },
+            "interpolation_dynamic_correlation": {
+              "mean": 0.033675555139780045,
+              "median": 0.01585398055613041
+            },
+            "shared_observed_energy_fraction": {
+              "mean": 0.16187416017055511,
+              "median": 0.15268459916114807
+            },
+            "shared_overprediction_fraction": {
+              "mean": 0.03263814002275467,
+              "median": 0.023822616785764694
+            }
+          }
+        }
+      ]
+    }
+  },
+  "validation": {
+    "tests_passed": 55,
+    "test_runs": "53-test full unittest suite, plus two new dynamic-metric regression tests; all passed",
+    "audited_checkpoints": 12,
+    "verified_report_local_links": 119,
+    "audit_checks": [
+      "physical-amplitude rerender",
+      "masked core objective",
+      "all-self initialization",
+      "minimum fixed-objective checkpoint",
+      "finite per-station metrics",
+      "shared+self native audio sum"
+    ]
+  },
+  "artifacts": {
+    "main_report": "outputs/seismic_self_shared_low/report.html",
+    "driver": "splauts/seismic_self_shared.py",
+    "loss_and_fitter": "splauts/training/self_shared.py",
+    "finalizer": "outputs/seismic_self_shared_low/finalize_study.py"
+  },
+  "limitations": [
+    "No native source identity, clean source waveform or surveyed elephant location ground truth",
+    "CSV has 1153 tracks vs 1024 WAV channels: direct available TrackIndex/channel ordering is assumed, not verified",
+    "Fixed 330 m/s point-source propagation, common spreading exponent and no learned station response",
+    "Exploratory analysis with overlapping windows, not a preregistered blind benchmark",
+    "Continuation and no-sparsity sensitivity trials cover only 38\u201346 s"
+  ],
+  "next_experiment": "Reserve a stationary noise floor for self and accept births only when they predict time-varying power at other fitting stations; verify TrackIndex mapping before native localization claims."
+}

@@ -1,0 +1,2466 @@
+{
+  "experiment": "Synthetic sensor self-noise and shared neural event splauts",
+  "date": "2026-10-20",
+  "conclusion": "Conservative self/shared energy transfer plus a sparse spatial prior recovers both sources under moderate independent sensor noise, with an extra location in one case. Noise-only controls remain self. Stronger noise, waveform interference and regularization tradeoffs remain failures.",
+  "protocol": {
+    "config": {
+      "sample_rate": 500,
+      "n_fft": 250,
+      "hop_length": 25,
+      "scene_duration": 6.0,
+      "call_duration": 2.0,
+      "area_size": 300.0,
+      "sound_speed": 330.0,
+      "distance_offset": 25.0,
+      "noise_std": 0.0,
+      "splauts": 48,
+      "latent_dim": 16,
+      "seed": 7,
+      "harmonic_count": 1,
+      "harmonic_rolloff": 0.7,
+      "frequency_scale": 1.0,
+      "call_families": [
+        "tonal",
+        "sweep",
+        "pulse"
+      ],
+      "absorption_db_per_km": 0.0,
+      "absorption_power": 2.0,
+      "absorption_distance_bins": 8,
+      "power_spreading_exponent": 2.0
+    },
+    "arguments": {
+      "output": "outputs\\self_noise_spatial",
+      "seeds": [
+        7,
+        19,
+        31
+      ],
+      "noise_levels": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "steps": 600,
+      "warmup_steps": 200,
+      "grid_size": 13,
+      "capacity": 5,
+      "stations": 8,
+      "splauts": 48,
+      "threads": 1,
+      "primary_only": false
+    },
+    "capacity": 5,
+    "fit_stations": 8,
+    "heldout_stations": 4,
+    "loss": {
+      "reconstruction": 10.0,
+      "self_energy": 1.0,
+      "spatial_sparsity": 0.08,
+      "multisensor": 4.0,
+      "gate_scale": 0.005,
+      "min_stations": 4.0,
+      "correlation_threshold": 0.15,
+      "correlation_temperature": 0.03,
+      "spatial_radius_m": 15.0
+    },
+    "checkpoint_selection": "Minimum fixed final objective over every iterate, including the initial all-self model. Ground truth never selects a checkpoint.",
+    "fitting_inputs": [
+      "fitting-station mixture powers",
+      "fitting-station coordinates",
+      "time/frequency axes",
+      "duration prior",
+      "upper-bound location-group capacity"
+    ],
+    "withheld": [
+      "source count",
+      "source positions/onsets/amplitudes",
+      "clean source fields",
+      "sensor-noise fields",
+      "four held-out station recordings"
+    ],
+    "equations": {
+      "self": "S=max(Y-P,0)",
+      "reconstruction": "mean_m mean_tf (P+S-Y)^2 / mean_tf Y^2",
+      "self_penalty": "mean_m mean_tf S / mean_tf Y",
+      "sparsity": "sum_k a_k / (tau + sum_j exp(-||x_k-x_j||^2/(2*r^2))*a_j); r=15 m",
+      "multi_station": "sum_k a_k max(0,1-support_k/min_stations)",
+      "support": "min(effective rendered station count, soft count of positive temporally centered template correlations)",
+      "gate": "a_k = rendered mean energy in fixed station-balanced observation units"
+    }
+  },
+  "summary": [
+    {
+      "noise_level": 0.0,
+      "cases": 3,
+      "recovered": 6,
+      "sources": 6,
+      "false_active_locations": 0,
+      "mean_shared_heldout_nmse": 0.0019565048038435906,
+      "mean_self_noise_nmse": null
+    },
+    {
+      "noise_level": 1.0,
+      "cases": 3,
+      "recovered": 6,
+      "sources": 6,
+      "false_active_locations": 1,
+      "mean_shared_heldout_nmse": 0.1443400960342935,
+      "mean_self_noise_nmse": 0.022152179961030177
+    },
+    {
+      "noise_level": 2.0,
+      "cases": 3,
+      "recovered": 2,
+      "sources": 6,
+      "false_active_locations": 4,
+      "mean_shared_heldout_nmse": 0.2078112864638266,
+      "mean_self_noise_nmse": 0.0007994760338457901
+    }
+  ],
+  "cases": [
+    {
+      "seed": 7,
+      "noise_level": 0.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_7_noise_0_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          216.3445281982422,
+          198.29495239257812
+        ],
+        [
+          90.59054565429688,
+          104.58263397216797
+        ]
+      ],
+      "location_members": [
+        [
+          1,
+          3
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        0.17002080380916595,
+        0.0011139961425215006
+      ],
+      "positions_m": [
+        [
+          4.925899982452393,
+          34.01979446411133
+        ],
+        [
+          216.34896850585938,
+          198.29637145996094
+        ],
+        [
+          90.59054565429688,
+          104.58263397216797
+        ],
+        [
+          216.3273468017578,
+          198.2894287109375
+        ],
+        [
+          118.28312683105469,
+          65.75361633300781
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.3640983998775482,
+        0.5685574412345886,
+        0.0943131148815155,
+        0.0
+      ],
+      "support": [
+        5.467569828033447,
+        5.740847110748291,
+        6.423564434051514,
+        5.7416462898254395,
+        4.860863208770752
+      ],
+      "best_step": 597,
+      "fit_seconds": 37.552412900025956,
+      "shared_fit_nmse": 0.0009871975782572728,
+      "shared_heldout_nmse": 0.0009474342675075256,
+      "self_noise_nmse": null,
+      "total_reconstruction_nmse": 0.0006245380217498647,
+      "shared_energy_fraction": 1.0269689559936523,
+      "remaining_self_energy_fraction": 0.00707459868863225,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.0
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 3,
+      "location_centers_m": [
+        [
+          207.62680053710938,
+          74.80146026611328
+        ],
+        [
+          89.19806671142578,
+          103.96207427978516
+        ],
+        [
+          216.1703338623047,
+          198.7003173828125
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 1,
+      "position_errors_m": [
+        1.692703366279602,
+        0.4410198926925659
+      ],
+      "positions_m": [
+        [
+          207.62680053710938,
+          74.80146026611328
+        ],
+        [
+          89.19806671142578,
+          103.96207427978516
+        ],
+        [
+          216.1703338623047,
+          198.7003173828125
+        ],
+        [
+          195.08377075195312,
+          29.171504974365234
+        ],
+        [
+          127.63214111328125,
+          94.82599639892578
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.13730865716934204,
+        0.2527373731136322,
+        0.25347840785980225,
+        0.0,
+        0.0
+      ],
+      "support": [
+        4.000943183898926,
+        5.202303886413574,
+        4.647148132324219,
+        3.620954751968384,
+        6.383579730987549
+      ],
+      "best_step": 598,
+      "fit_seconds": 35.15913149993867,
+      "shared_fit_nmse": 0.24761502444464742,
+      "shared_heldout_nmse": 0.39074236132940016,
+      "self_noise_nmse": 0.06485240024217437,
+      "total_reconstruction_nmse": 0.0020866463132586644,
+      "shared_energy_fraction": 0.6435245275497437,
+      "remaining_self_energy_fraction": 0.464546799659729,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.616473913192749
+    },
+    {
+      "seed": 7,
+      "noise_level": 2.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_7_noise_2_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 2,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          214.48779296875,
+          188.15560913085938
+        ],
+        [
+          88.65422058105469,
+          102.18106079101562
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          3
+        ]
+      ],
+      "recovered_within_10m": 1,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 1,
+      "position_errors_m": [
+        3.2468366622924805,
+        10.3074951171875
+      ],
+      "positions_m": [
+        [
+          214.48779296875,
+          188.15560913085938
+        ],
+        [
+          187.6242218017578,
+          15.648365020751953
+        ],
+        [
+          218.6735382080078,
+          183.76535034179688
+        ],
+        [
+          88.65422058105469,
+          102.18106079101562
+        ],
+        [
+          163.9219207763672,
+          187.80580139160156
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.24256230890750885,
+        0.0,
+        0.0,
+        0.11594831943511963,
+        0.0
+      ],
+      "support": [
+        4.439627170562744,
+        3.0762438774108887,
+        4.750100612640381,
+        4.403472423553467,
+        4.514170169830322
+      ],
+      "best_step": 595,
+      "fit_seconds": 36.63697869994212,
+      "shared_fit_nmse": 0.07748575389100122,
+      "shared_heldout_nmse": 0.08188748646663638,
+      "self_noise_nmse": 0.0005877303692639071,
+      "total_reconstruction_nmse": 0.0005108621089178646,
+      "shared_energy_fraction": 0.3585106432437897,
+      "remaining_self_energy_fraction": 0.7398671507835388,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.865402102470398
+    },
+    {
+      "seed": 19,
+      "noise_level": 0.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_19_noise_0_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          220.96865844726562,
+          198.3994140625
+        ],
+        [
+          99.53270721435547,
+          104.4599380493164
+        ]
+      ],
+      "location_members": [
+        [
+          1,
+          3
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        0.38874560594558716,
+        0.011841301806271076
+      ],
+      "positions_m": [
+        [
+          5.119441986083984,
+          57.47664260864258
+        ],
+        [
+          220.96763610839844,
+          198.3987579345703
+        ],
+        [
+          99.53270721435547,
+          104.4599380493164
+        ],
+        [
+          220.97195434570312,
+          198.4015350341797
+        ],
+        [
+          193.669677734375,
+          181.29159545898438
+        ]
+      ],
+      "true_positions_m": [
+        [
+          99.84066009521484,
+          104.69718933105469
+        ],
+        [
+          220.97848510742188,
+          198.40602111816406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.3496706485748291,
+        0.5699784159660339,
+        0.10875602811574936,
+        0.0
+      ],
+      "support": [
+        5.267027854919434,
+        5.746711254119873,
+        6.472541332244873,
+        5.7465105056762695,
+        6.6791229248046875
+      ],
+      "best_step": 598,
+      "fit_seconds": 39.288494499982335,
+      "shared_fit_nmse": 0.002469719887437982,
+      "shared_heldout_nmse": 0.0024078352504970186,
+      "self_noise_nmse": null,
+      "total_reconstruction_nmse": 0.0010681452592606908,
+      "shared_energy_fraction": 1.0284050703048706,
+      "remaining_self_energy_fraction": 0.014858146198093891,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.4111599922180176,
+        2.3382060527801514,
+        0.7724181413650513,
+        0.5968359708786011,
+        0.7079669237136841,
+        3.0,
+        0.6363460421562195,
+        0.3499999940395355,
+        1.4455029964447021,
+        0.4639321267604828,
+        0.6016226410865784,
+        0.6205039620399475
+      ],
+      "observed_self_power_ratio": 0.0
+    },
+    {
+      "seed": 19,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_19_noise_1_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          98.82003784179688,
+          102.6427001953125
+        ],
+        [
+          221.94595336914062,
+          200.17784118652344
+        ]
+      ],
+      "location_members": [
+        [
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        2.294034719467163,
+        2.018747329711914
+      ],
+      "positions_m": [
+        [
+          95.2452392578125,
+          24.228498458862305
+        ],
+        [
+          206.2809295654297,
+          276.328369140625
+        ],
+        [
+          98.82003784179688,
+          102.6427001953125
+        ],
+        [
+          221.9099578857422,
+          200.32061767578125
+        ],
+        [
+          222.01695251464844,
+          199.89637756347656
+        ]
+      ],
+      "true_positions_m": [
+        [
+          99.84066009521484,
+          104.69718933105469
+        ],
+        [
+          220.97848510742188,
+          198.40602111816406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.0,
+        0.3036309778690338,
+        0.20408327877521515,
+        0.103519506752491
+      ],
+      "support": [
+        4.297712326049805,
+        4.510923385620117,
+        5.376269340515137,
+        5.740545749664307,
+        5.726249694824219
+      ],
+      "best_step": 591,
+      "fit_seconds": 39.683702699956484,
+      "shared_fit_nmse": 0.01235516587389113,
+      "shared_heldout_nmse": 0.021581687649104873,
+      "self_noise_nmse": 0.0002566763786900936,
+      "total_reconstruction_nmse": 0.00016083194761812867,
+      "shared_energy_fraction": 0.6112337708473206,
+      "remaining_self_energy_fraction": 0.47559410333633423,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.4111599922180176,
+        2.3382060527801514,
+        0.7724181413650513,
+        0.5968359708786011,
+        0.7079669237136841,
+        3.0,
+        0.6363460421562195,
+        0.3499999940395355,
+        1.4455029964447021,
+        0.4639321267604828,
+        0.6016226410865784,
+        0.6205039620399475
+      ],
+      "observed_self_power_ratio": 0.7386767864227295
+    },
+    {
+      "seed": 19,
+      "noise_level": 2.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_19_noise_2_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 2,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          97.07471466064453,
+          98.43014526367188
+        ],
+        [
+          286.29803466796875,
+          263.2693176269531
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
+      "recovered_within_10m": 1,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 1,
+      "position_errors_m": [
+        6.850276947021484,
+        92.05374145507812
+      ],
+      "positions_m": [
+        [
+          97.07471466064453,
+          98.43014526367188
+        ],
+        [
+          286.29803466796875,
+          263.2693176269531
+        ],
+        [
+          205.92877197265625,
+          200.7672119140625
+        ],
+        [
+          96.95852661132812,
+          98.60797119140625
+        ],
+        [
+          106.91254425048828,
+          199.7743377685547
+        ]
+      ],
+      "true_positions_m": [
+        [
+          99.84066009521484,
+          104.69718933105469
+        ],
+        [
+          220.97848510742188,
+          198.40602111816406
+        ]
+      ],
+      "gate_mass": [
+        0.13345111906528473,
+        0.2359350472688675,
+        0.0,
+        0.02730320394039154,
+        0.0
+      ],
+      "support": [
+        4.818647384643555,
+        5.13003396987915,
+        4.649197578430176,
+        4.3574137687683105,
+        3.0661399364471436
+      ],
+      "best_step": 595,
+      "fit_seconds": 39.88751679996494,
+      "shared_fit_nmse": 0.29977695415694344,
+      "shared_heldout_nmse": 0.18011031587918716,
+      "self_noise_nmse": 0.0002423702683562551,
+      "total_reconstruction_nmse": 0.00039461686114554087,
+      "shared_energy_fraction": 0.39668938517570496,
+      "remaining_self_energy_fraction": 0.6995057463645935,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.4111599922180176,
+        2.3382060527801514,
+        0.7724181413650513,
+        0.5968359708786011,
+        0.7079669237136841,
+        3.0,
+        0.6363460421562195,
+        0.3499999940395355,
+        1.4455029964447021,
+        0.4639321267604828,
+        0.6016226410865784,
+        0.6205039620399475
+      ],
+      "observed_self_power_ratio": 0.9187436699867249
+    },
+    {
+      "seed": 31,
+      "noise_level": 0.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_31_noise_0_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          208.28298950195312,
+          195.36773681640625
+        ],
+        [
+          84.18912506103516,
+          109.25614166259766
+        ]
+      ],
+      "location_members": [
+        [
+          1,
+          4
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        0.17061056196689606,
+        0.00907919742166996
+      ],
+      "positions_m": [
+        [
+          6.714379787445068,
+          30.206628799438477
+        ],
+        [
+          208.28933715820312,
+          195.37396240234375
+        ],
+        [
+          84.18912506103516,
+          109.25614166259766
+        ],
+        [
+          211.27273559570312,
+          199.529296875
+        ],
+        [
+          208.27366638183594,
+          195.35858154296875
+        ]
+      ],
+      "true_positions_m": [
+        [
+          84.32536315917969,
+          109.35884094238281
+        ],
+        [
+          208.27552795410156,
+          195.36256408691406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.2749214172363281,
+        0.5658619403839111,
+        0.0,
+        0.1869494765996933
+      ],
+      "support": [
+        5.23026180267334,
+        5.836632251739502,
+        6.462122440338135,
+        5.621157646179199,
+        5.837501049041748
+      ],
+      "best_step": 596,
+      "fit_seconds": 37.29142959997989,
+      "shared_fit_nmse": 0.002576515739664515,
+      "shared_heldout_nmse": 0.0025142448935262275,
+      "self_noise_nmse": null,
+      "total_reconstruction_nmse": 0.001123853990371967,
+      "shared_energy_fraction": 1.0277328491210938,
+      "remaining_self_energy_fraction": 0.017330337315797806,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.7927542924880981,
+        1.1885021924972534,
+        0.9509128332138062,
+        0.9662450551986694,
+        0.49826717376708984,
+        0.3499999940395355,
+        1.4897021055221558,
+        2.130979537963867,
+        0.7351005673408508,
+        0.3499999940395355,
+        1.5802284479141235,
+        1.703009843826294
+      ],
+      "observed_self_power_ratio": 0.0
+    },
+    {
+      "seed": 31,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_31_noise_1_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          87.92621612548828,
+          111.60326385498047
+        ],
+        [
+          210.97509765625,
+          191.48451232910156
+        ]
+      ],
+      "location_members": [
+        [
+          0,
+          4
+        ],
+        [
+          3
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        4.2430620193481445,
+        4.725141525268555
+      ],
+      "positions_m": [
+        [
+          87.90435028076172,
+          111.62837219238281
+        ],
+        [
+          261.1480407714844,
+          139.5296173095703
+        ],
+        [
+          258.4320373535156,
+          230.8006591796875
+        ],
+        [
+          210.97509765625,
+          191.48451232910156
+        ],
+        [
+          88.01295471191406,
+          111.5036849975586
+        ]
+      ],
+      "true_positions_m": [
+        [
+          84.32536315917969,
+          109.35884094238281
+        ],
+        [
+          208.27552795410156,
+          195.36256408691406
+        ]
+      ],
+      "gate_mass": [
+        0.2517105042934418,
+        0.0,
+        0.0,
+        0.2825672924518585,
+        0.06345708668231964
+      ],
+      "support": [
+        4.000006198883057,
+        5.19263219833374,
+        3.471067190170288,
+        5.680623531341553,
+        4.000211715698242
+      ],
+      "best_step": 597,
+      "fit_seconds": 37.44109390000813,
+      "shared_fit_nmse": 0.0225801207129592,
+      "shared_heldout_nmse": 0.020696239124375435,
+      "self_noise_nmse": 0.0013474632622260717,
+      "total_reconstruction_nmse": 0.0012204929484028644,
+      "shared_energy_fraction": 0.597734808921814,
+      "remaining_self_energy_fraction": 0.5023579001426697,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.7927542924880981,
+        1.1885021924972534,
+        0.9509128332138062,
+        0.9662450551986694,
+        0.49826717376708984,
+        0.3499999940395355,
+        1.4897021055221558,
+        2.130979537963867,
+        0.7351005673408508,
+        0.3499999940395355,
+        1.5802284479141235,
+        1.703009843826294
+      ],
+      "observed_self_power_ratio": 0.6654847264289856
+    },
+    {
+      "seed": 31,
+      "noise_level": 2.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_31_noise_2_additive_power_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          127.14332580566406,
+          132.0106964111328
+        ],
+        [
+          223.67433166503906,
+          186.91079711914062
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "recovered_within_10m": 0,
+      "false_or_unmatched_active_groups": 3,
+      "false_or_unmatched_locations": 2,
+      "position_errors_m": [
+        48.44052505493164,
+        17.56574821472168
+      ],
+      "positions_m": [
+        [
+          127.14332580566406,
+          132.0106964111328
+        ],
+        [
+          207.0876922607422,
+          13.66308879852295
+        ],
+        [
+          126.98731994628906,
+          110.59098815917969
+        ],
+        [
+          223.68954467773438,
+          186.93194580078125
+        ],
+        [
+          223.65223693847656,
+          186.8800506591797
+        ]
+      ],
+      "true_positions_m": [
+        [
+          84.32536315917969,
+          109.35884094238281
+        ],
+        [
+          208.27552795410156,
+          195.36256408691406
+        ]
+      ],
+      "gate_mass": [
+        0.19721552729606628,
+        0.0,
+        0.0,
+        0.14502482116222382,
+        0.0997658371925354
+      ],
+      "support": [
+        4.000000953674316,
+        3.6108086109161377,
+        3.3542752265930176,
+        6.1229166984558105,
+        4.336471080780029
+      ],
+      "best_step": 593,
+      "fit_seconds": 37.526157599990256,
+      "shared_fit_nmse": 0.431529943110082,
+      "shared_heldout_nmse": 0.36143605704565623,
+      "self_noise_nmse": 0.001568327463917208,
+      "total_reconstruction_nmse": 0.0017639164090957054,
+      "shared_energy_fraction": 0.4420061409473419,
+      "remaining_self_energy_fraction": 0.7016934752464294,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.7927542924880981,
+        1.1885021924972534,
+        0.9509128332138062,
+        0.9662450551986694,
+        0.49826717376708984,
+        0.3499999940395355,
+        1.4897021055221558,
+        2.130979537963867,
+        0.7351005673408508,
+        0.3499999940395355,
+        1.5802284479141235,
+        1.703009843826294
+      ],
+      "observed_self_power_ratio": 0.8883630037307739
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "waveform",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_waveform_full",
+      "true_sources": 2,
+      "active_groups": 4,
+      "active_locations": 3,
+      "location_centers_m": [
+        [
+          240.22552490234375,
+          159.42453002929688
+        ],
+        [
+          14.539003372192383,
+          65.41261291503906
+        ],
+        [
+          95.2039566040039,
+          109.7130126953125
+        ]
+      ],
+      "location_members": [
+        [
+          0,
+          3
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 1,
+      "false_or_unmatched_active_groups": 3,
+      "false_or_unmatched_locations": 2,
+      "position_errors_m": [
+        6.735652923583984,
+        45.620643615722656
+      ],
+      "positions_m": [
+        [
+          240.60842895507812,
+          159.32766723632812
+        ],
+        [
+          14.539002418518066,
+          65.41261291503906
+        ],
+        [
+          95.2039566040039,
+          109.7130126953125
+        ],
+        [
+          239.320556640625,
+          159.6533966064453
+        ],
+        [
+          165.30862426757812,
+          213.0998077392578
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.1838870793581009,
+        0.1763506382703781,
+        0.10320300608873367,
+        0.07781106233596802,
+        0.0
+      ],
+      "support": [
+        4.324814319610596,
+        4.490601062774658,
+        5.43270206451416,
+        4.408452987670898,
+        4.733799934387207
+      ],
+      "best_step": 597,
+      "fit_seconds": 37.11859800003003,
+      "shared_fit_nmse": 0.20165013470663665,
+      "shared_heldout_nmse": 0.40503988962095483,
+      "self_noise_nmse": 0.16240535562660618,
+      "total_reconstruction_nmse": 0.0030491545929036456,
+      "shared_energy_fraction": 0.5412517786026001,
+      "remaining_self_energy_fraction": 0.5822039842605591,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.6133967041969299
+    },
+    {
+      "seed": 19,
+      "noise_level": 1.0,
+      "mode": "waveform",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_19_noise_1_waveform_full",
+      "true_sources": 2,
+      "active_groups": 4,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          224.51333618164062,
+          201.63641357421875
+        ],
+        [
+          96.8477554321289,
+          104.78047943115234
+        ]
+      ],
+      "location_members": [
+        [
+          1,
+          3,
+          4
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 2,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        2.994063377380371,
+        4.788591384887695
+      ],
+      "positions_m": [
+        [
+          100.46759796142578,
+          44.10578918457031
+        ],
+        [
+          224.6564483642578,
+          202.57998657226562
+        ],
+        [
+          96.8477554321289,
+          104.78047943115234
+        ],
+        [
+          224.54132080078125,
+          201.26467895507812
+        ],
+        [
+          224.2638702392578,
+          200.5955810546875
+        ]
+      ],
+      "true_positions_m": [
+        [
+          99.84066009521484,
+          104.69718933105469
+        ],
+        [
+          220.97848510742188,
+          198.40602111816406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.13237322866916656,
+        0.26051345467567444,
+        0.09386304765939713,
+        0.08647938072681427
+      ],
+      "support": [
+        4.633613586425781,
+        5.7860331535339355,
+        5.293942451477051,
+        5.747232913970947,
+        5.730591773986816
+      ],
+      "best_step": 598,
+      "fit_seconds": 37.122335899970494,
+      "shared_fit_nmse": 0.048241112394604255,
+      "shared_heldout_nmse": 0.05725724363686095,
+      "self_noise_nmse": 0.006445437532735843,
+      "total_reconstruction_nmse": 0.0009735358551225066,
+      "shared_energy_fraction": 0.5732291340827942,
+      "remaining_self_energy_fraction": 0.5303616523742676,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.4111599922180176,
+        2.3382060527801514,
+        0.7724181413650513,
+        0.5968359708786011,
+        0.7079669237136841,
+        3.0,
+        0.6363460421562195,
+        0.3499999940395355,
+        1.4455029964447021,
+        0.4639321267604828,
+        0.6016226410865784,
+        0.6205039620399475
+      ],
+      "observed_self_power_ratio": 0.7394222617149353
+    },
+    {
+      "seed": 31,
+      "noise_level": 1.0,
+      "mode": "waveform",
+      "variant": "full",
+      "noise_only": false,
+      "directory": "seed_31_noise_1_waveform_full",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 2,
+      "location_centers_m": [
+        [
+          89.53280639648438,
+          111.9184341430664
+        ],
+        [
+          211.91455078125,
+          192.7877960205078
+        ]
+      ],
+      "location_members": [
+        [
+          0,
+          4
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        5.802497863769531,
+        4.45779275894165
+      ],
+      "positions_m": [
+        [
+          89.56572723388672,
+          111.92695617675781
+        ],
+        [
+          284.8934326171875,
+          242.17047119140625
+        ],
+        [
+          211.91455078125,
+          192.7877960205078
+        ],
+        [
+          244.630615234375,
+          54.92116165161133
+        ],
+        [
+          89.44816589355469,
+          111.89654541015625
+        ]
+      ],
+      "true_positions_m": [
+        [
+          84.32536315917969,
+          109.35884094238281
+        ],
+        [
+          208.27552795410156,
+          195.36256408691406
+        ]
+      ],
+      "gate_mass": [
+        0.23434890806674957,
+        0.0,
+        0.2698252201080322,
+        0.0,
+        0.09114162623882294
+      ],
+      "support": [
+        4.000007152557373,
+        4.415773391723633,
+        5.733089923858643,
+        1.7903989553451538,
+        4.000241756439209
+      ],
+      "best_step": 599,
+      "fit_seconds": 37.3078361999942,
+      "shared_fit_nmse": 0.03796507628944625,
+      "shared_heldout_nmse": 0.043437445830973774,
+      "self_noise_nmse": 0.04935110231110534,
+      "total_reconstruction_nmse": 0.0027039941123352387,
+      "shared_energy_fraction": 0.5953158140182495,
+      "remaining_self_energy_fraction": 0.5334405303001404,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.7927542924880981,
+        1.1885021924972534,
+        0.9509128332138062,
+        0.9662450551986694,
+        0.49826717376708984,
+        0.3499999940395355,
+        1.4897021055221558,
+        2.130979537963867,
+        0.7351005673408508,
+        0.3499999940395355,
+        1.5802284479141235,
+        1.703009843826294
+      ],
+      "observed_self_power_ratio": 0.6533010005950928
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": true,
+      "directory": "seed_7_noise_1_additive_power_full_noise_only",
+      "true_sources": 0,
+      "active_groups": 0,
+      "active_locations": 0,
+      "location_centers_m": [],
+      "location_members": [],
+      "recovered_within_10m": 0,
+      "false_or_unmatched_active_groups": 0,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [],
+      "positions_m": [
+        [
+          242.3076934814453,
+          173.07691955566406
+        ],
+        [
+          288.4615478515625,
+          80.76923370361328
+        ],
+        [
+          242.3076934814453,
+          173.07691955566406
+        ],
+        [
+          126.9230728149414,
+          34.615379333496094
+        ],
+        [
+          242.3076934814453,
+          173.07691955566406
+        ]
+      ],
+      "true_positions_m": [],
+      "gate_mass": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": [
+        2.0216712951660156,
+        3.002495288848877,
+        1.8336710929870605,
+        0.8406556844711304,
+        1.4916248321533203
+      ],
+      "best_step": 0,
+      "fit_seconds": 38.248028700007126,
+      "shared_fit_nmse": null,
+      "shared_heldout_nmse": null,
+      "self_noise_nmse": 0.0,
+      "total_reconstruction_nmse": 0.0,
+      "shared_energy_fraction": 0.0,
+      "remaining_self_energy_fraction": 1.0,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 1.0
+    },
+    {
+      "seed": 19,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": true,
+      "directory": "seed_19_noise_1_additive_power_full_noise_only",
+      "true_sources": 0,
+      "active_groups": 0,
+      "active_locations": 0,
+      "location_centers_m": [],
+      "location_members": [],
+      "recovered_within_10m": 0,
+      "false_or_unmatched_active_groups": 0,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [],
+      "positions_m": [
+        [
+          265.3846130371094,
+          288.4615478515625
+        ],
+        [
+          80.76923370361328,
+          150.0
+        ],
+        [
+          126.9230728149414,
+          150.0
+        ],
+        [
+          196.15383911132812,
+          288.4615478515625
+        ],
+        [
+          150.0,
+          219.2307586669922
+        ]
+      ],
+      "true_positions_m": [],
+      "gate_mass": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": [
+        1.0671894550323486,
+        0.48106056451797485,
+        0.40083175897598267,
+        1.0023260116577148,
+        0.7215321660041809
+      ],
+      "best_step": 0,
+      "fit_seconds": 38.474163500010036,
+      "shared_fit_nmse": null,
+      "shared_heldout_nmse": null,
+      "self_noise_nmse": 0.0,
+      "total_reconstruction_nmse": 0.0,
+      "shared_energy_fraction": 0.0,
+      "remaining_self_energy_fraction": 1.0,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.4111599922180176,
+        2.3382060527801514,
+        0.7724181413650513,
+        0.5968359708786011,
+        0.7079669237136841,
+        3.0,
+        0.6363460421562195,
+        0.3499999940395355,
+        1.4455029964447021,
+        0.4639321267604828,
+        0.6016226410865784,
+        0.6205039620399475
+      ],
+      "observed_self_power_ratio": 1.0
+    },
+    {
+      "seed": 31,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "full",
+      "noise_only": true,
+      "directory": "seed_31_noise_1_additive_power_full_noise_only",
+      "true_sources": 0,
+      "active_groups": 0,
+      "active_locations": 0,
+      "location_centers_m": [],
+      "location_members": [],
+      "recovered_within_10m": 0,
+      "false_or_unmatched_active_groups": 0,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [],
+      "positions_m": [
+        [
+          265.3846130371094,
+          80.76923370361328
+        ],
+        [
+          80.76923370361328,
+          265.3846130371094
+        ],
+        [
+          80.76923370361328,
+          219.2307586669922
+        ],
+        [
+          265.3846130371094,
+          80.76923370361328
+        ],
+        [
+          196.15383911132812,
+          173.07691955566406
+        ]
+      ],
+      "true_positions_m": [],
+      "gate_mass": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": [
+        4.005486011505127,
+        2.241847038269043,
+        1.3192261457443237,
+        2.583031177520752,
+        0.6289229989051819
+      ],
+      "best_step": 0,
+      "fit_seconds": 38.71403759997338,
+      "shared_fit_nmse": null,
+      "shared_heldout_nmse": null,
+      "self_noise_nmse": 0.0,
+      "total_reconstruction_nmse": 0.0,
+      "shared_energy_fraction": 0.0,
+      "remaining_self_energy_fraction": 1.0,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.7927542924880981,
+        1.1885021924972534,
+        0.9509128332138062,
+        0.9662450551986694,
+        0.49826717376708984,
+        0.3499999940395355,
+        1.4897021055221558,
+        2.130979537963867,
+        0.7351005673408508,
+        0.3499999940395355,
+        1.5802284479141235,
+        1.703009843826294
+      ],
+      "observed_self_power_ratio": 1.0
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "no_self_penalty",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_additive_power_no_self_penalty",
+      "true_sources": 2,
+      "active_groups": 0,
+      "active_locations": 0,
+      "location_centers_m": [],
+      "location_members": [],
+      "recovered_within_10m": 0,
+      "false_or_unmatched_active_groups": 0,
+      "false_or_unmatched_locations": 0,
+      "position_errors_m": [
+        null,
+        null
+      ],
+      "positions_m": [
+        [
+          196.15383911132812,
+          219.2307586669922
+        ],
+        [
+          57.69231033325195,
+          103.84615325927734
+        ],
+        [
+          242.3076934814453,
+          196.15383911132812
+        ],
+        [
+          196.15383911132812,
+          34.615379333496094
+        ],
+        [
+          103.84615325927734,
+          80.76923370361328
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": [
+        3.946922779083252,
+        4.193663597106934,
+        4.1116132736206055,
+        4.054967403411865,
+        4.720625877380371
+      ],
+      "best_step": 0,
+      "fit_seconds": 4.101864499971271,
+      "shared_fit_nmse": 1.0,
+      "shared_heldout_nmse": 1.0,
+      "self_noise_nmse": 0.28024784880969333,
+      "total_reconstruction_nmse": 0.0,
+      "shared_energy_fraction": 0.0,
+      "remaining_self_energy_fraction": 1.0,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 0.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.616473913192749
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "no_sparsity",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_additive_power_no_sparsity",
+      "true_sources": 2,
+      "active_groups": 5,
+      "active_locations": 4,
+      "location_centers_m": [
+        [
+          198.93588256835938,
+          140.71160888671875
+        ],
+        [
+          87.8526382446289,
+          103.67194366455078
+        ],
+        [
+          216.67971801757812,
+          199.4807891845703
+        ],
+        [
+          199.413330078125,
+          30.27907371520996
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 3,
+      "false_or_unmatched_locations": 2,
+      "position_errors_m": [
+        3.050328016281128,
+        1.2328438758850098
+      ],
+      "positions_m": [
+        [
+          198.93588256835938,
+          140.71160888671875
+        ],
+        [
+          87.3166732788086,
+          103.364501953125
+        ],
+        [
+          216.67971801757812,
+          199.4807891845703
+        ],
+        [
+          199.413330078125,
+          30.279071807861328
+        ],
+        [
+          90.01065826416016,
+          104.90977478027344
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.07442077994346619,
+        0.1912706047296524,
+        0.22508017718791962,
+        0.14880724251270294,
+        0.04750373214483261
+      ],
+      "support": [
+        6.479432106018066,
+        5.147205352783203,
+        4.5935893058776855,
+        4.002724647521973,
+        5.227242946624756
+      ],
+      "best_step": 599,
+      "fit_seconds": 38.20685509999748,
+      "shared_fit_nmse": 0.6128359636767442,
+      "shared_heldout_nmse": 0.0797933498685958,
+      "self_noise_nmse": 0.16511144250965715,
+      "total_reconstruction_nmse": 0.002807886388612504,
+      "shared_energy_fraction": 0.6870825290679932,
+      "remaining_self_energy_fraction": 0.4391763210296631,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.0,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.616473913192749
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "no_coherence",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_additive_power_no_coherence",
+      "true_sources": 2,
+      "active_groups": 3,
+      "active_locations": 3,
+      "location_centers_m": [
+        [
+          235.82080078125,
+          78.66106414794922
+        ],
+        [
+          90.29541015625,
+          104.05840301513672
+        ],
+        [
+          215.95962524414062,
+          198.397705078125
+        ]
+      ],
+      "location_members": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "recovered_within_10m": 2,
+      "false_or_unmatched_active_groups": 1,
+      "false_or_unmatched_locations": 1,
+      "position_errors_m": [
+        0.7562010288238525,
+        0.3974027633666992
+      ],
+      "positions_m": [
+        [
+          235.82078552246094,
+          78.66106414794922
+        ],
+        [
+          90.29541015625,
+          104.05840301513672
+        ],
+        [
+          215.95962524414062,
+          198.397705078125
+        ],
+        [
+          188.74310302734375,
+          27.07206916809082
+        ],
+        [
+          127.63214111328125,
+          94.82599639892578
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.10982619971036911,
+        0.2732146084308624,
+        0.26268959045410156,
+        0.0,
+        0.0
+      ],
+      "support": [
+        1.7790347337722778,
+        5.233664035797119,
+        4.668011665344238,
+        2.9986681938171387,
+        6.383970260620117
+      ],
+      "best_step": 598,
+      "fit_seconds": 38.46895189990755,
+      "shared_fit_nmse": 0.477809512020421,
+      "shared_heldout_nmse": 0.17656318795176731,
+      "self_noise_nmse": 0.12834048151419872,
+      "total_reconstruction_nmse": 0.001549148318866744,
+      "shared_energy_fraction": 0.6457303762435913,
+      "remaining_self_energy_fraction": 0.45204755663871765,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 10.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 0.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.616473913192749
+    },
+    {
+      "seed": 7,
+      "noise_level": 1.0,
+      "mode": "additive_power",
+      "variant": "no_reconstruction",
+      "noise_only": false,
+      "directory": "seed_7_noise_1_additive_power_no_reconstruction",
+      "true_sources": 2,
+      "active_groups": 5,
+      "active_locations": 3,
+      "location_centers_m": [
+        [
+          211.12644958496094,
+          190.6983184814453
+        ],
+        [
+          45.09507751464844,
+          87.5975570678711
+        ],
+        [
+          196.7358856201172,
+          46.596736907958984
+        ]
+      ],
+      "location_members": [
+        [
+          0,
+          2
+        ],
+        [
+          1
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "recovered_within_10m": 1,
+      "false_or_unmatched_active_groups": 4,
+      "false_or_unmatched_locations": 2,
+      "position_errors_m": [
+        48.72872543334961,
+        9.215310096740723
+      ],
+      "positions_m": [
+        [
+          211.34815979003906,
+          190.82586669921875
+        ],
+        [
+          45.09507751464844,
+          87.5975570678711
+        ],
+        [
+          210.91738891601562,
+          190.5780487060547
+        ],
+        [
+          196.73770141601562,
+          46.67489242553711
+        ],
+        [
+          196.7340087890625,
+          46.515560150146484
+        ]
+      ],
+      "true_positions_m": [
+        [
+          90.7333755493164,
+          104.67486572265625
+        ],
+        [
+          216.34344482421875,
+          198.29469299316406
+        ]
+      ],
+      "gate_mass": [
+        0.7181082963943481,
+        0.6905694603919983,
+        0.7615934014320374,
+        0.7274023294448853,
+        0.7002676725387573
+      ],
+      "support": [
+        5.148015975952148,
+        4.284763336181641,
+        5.166000843048096,
+        4.798218727111816,
+        4.814568519592285
+      ],
+      "best_step": 599,
+      "fit_seconds": 38.5100545999594,
+      "shared_fit_nmse": 15.250355492955038,
+      "shared_heldout_nmse": 5.517834440001915,
+      "self_noise_nmse": 0.8323571678478774,
+      "total_reconstruction_nmse": 1.9686598714393966,
+      "shared_energy_fraction": 3.5979409217834473,
+      "remaining_self_energy_fraction": 0.10119199007749557,
+      "initial_self_fraction": 1.0,
+      "initial_shared_gates": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "loss_weights": {
+        "reconstruction": 0.0,
+        "self_energy": 1.0,
+        "spatial_sparsity": 0.08,
+        "multisensor": 4.0,
+        "gate_scale": 0.005,
+        "min_stations": 4.0,
+        "correlation_threshold": 0.15,
+        "correlation_temperature": 0.03,
+        "spatial_radius_m": 15.0
+      },
+      "noise_gains": [
+        1.031631350517273,
+        0.7727620601654053,
+        1.0611602067947388,
+        0.3916178345680237,
+        1.2596620321273804,
+        1.0437424182891846,
+        1.7209898233413696,
+        1.3422433137893677,
+        0.9545369148254395,
+        2.1257691383361816,
+        0.4991697072982788,
+        0.3521621823310852
+      ],
+      "observed_self_power_ratio": 0.616473913192749
+    }
+  ],
+  "artifact_audit": {
+    "checkpoints": 19,
+    "max_fit_rerender_abs_error": 1.430511474609375e-06,
+    "max_heldout_rerender_abs_error": 4.70197740328915e-38,
+    "max_self_residual_abs_error": 0.0,
+    "all_initial_models_exactly_all_self_and_selected_by_fixed_objective": true
+  },
+  "tests": "51 unit tests passed, including conservative self residuals, overprediction rejection, stationary-spectrum and one-sensor counterexamples, invariance to splitting one location, and mixture-only source recovery with local bursts.",
+  "interpretation": [
+    "All-self initialization has perfect total reconstruction and zero shared energy; reconstruction by itself does not measure separation.",
+    "Primary cases add independently simulated source/noise powers. Waveform-addition cases include cross terms and are separate stress tests.",
+    "True source count, source fields, sensor noise and four unseen station recordings are excluded from fitting and checkpoint selection.",
+    "A single fixed final joint objective selects all checkpoints, including all-self, during continuation.",
+    "Pilot seed 7 informed development; 19 and 31 are additional noise/position realizations of the same source family.",
+    "At moderate noise, all six sources localize within 4.8 m, with one additional site. Noise-only controls infer exactly zero shared energy.",
+    "The sparse spatial penalty favors fewer locations, but its seed-7 held-out prediction is worse than both the no-sparsity and no-coherence ablations.",
+    "At higher noise only two of six sources fall within 10 m. Reasonable aggregate source-power reconstruction is not proof of correct locations."
+  ],
+  "artifacts": {
+    "report": "outputs/self_noise_spatial/report.html",
+    "checkpoint_pattern": "outputs/self_noise_spatial/*/fit.pt",
+    "figures": [
+      "decomposition.png",
+      "truth_comparison.png"
+    ],
+    "results": "outputs/self_noise_spatial/results.json"
+  },
+  "next_experiments": [
+    "Use held-out sensor validation or station folds to test source births and select regularization without clean labels.",
+    "Test more independent source families, geometries, sensor gain patterns and noise distributions.",
+    "Address coherent waveform cross terms and stationary sources that temporal power correlation cannot distinguish from self-noise."
+  ]
+}

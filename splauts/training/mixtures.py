@@ -100,7 +100,8 @@ def mixture_losses(prediction: Tensor, observation: Tensor) -> tuple[Tensor, Ten
 
 @torch.no_grad()
 def propose_events(observed: MixtureObservations, config: Config, event_count: int,
-                   grid_size: int = 13, bandwidth_hz: float = 500.0) -> MixtureProposals:
+                   grid_size: int = 13, bandwidth_hz: float = 500.0,
+                   time_mask: Tensor | None = None) -> MixtureProposals:
     """Greedy propagation-aware matching pursuit on the station mixtures.
 
     For each candidate location, undo travel delays and find a nonnegative
@@ -109,6 +110,9 @@ def propose_events(observed: MixtureObservations, config: Config, event_count: i
     Subtract its projected field before proposing the next event.
     """
     observed.validate()
+    if time_mask is not None and (time_mask.dtype != torch.bool or time_mask.shape != observed.times.shape
+                                  or int(time_mask.sum()) < 3 or time_mask.device.type != "cpu"):
+        raise ValueError("Time mask must select at least three recording frames")
     if not 1 <= event_count <= 5 or grid_size < 2 or bandwidth_hz <= 0:
         raise ValueError("Use 1–5 events, a grid of at least 2 and a positive bandwidth")
     if float(observed.times[-1]) <= config.call_duration:
@@ -121,9 +125,10 @@ def propose_events(observed: MixtureObservations, config: Config, event_count: i
     yy, xx = torch.meshgrid(axis, axis, indexing="ij")
     candidates = torch.stack((xx.flatten(), yy.flatten()), -1)
     distances = torch.cdist(candidates, observed.stations)
-    gains = (distances + config.distance_offset).pow(-2)
+    gains = (distances + config.distance_offset).pow(-config.power_spreading_exponent)
     delays = distances / config.sound_speed
-    reference = observed.power.square().mean((1, 2)).sqrt().clamp_min(1e-10)
+    reference_power = observed.power if time_mask is None else observed.power[:, time_mask]
+    reference = reference_power.square().mean((1, 2)).sqrt().clamp_min(1e-10)
     residual = observed.power.clone()
     positions, onsets, fields, scores = [], [], [], []
     # Decimation is for proposal scoring only; provisional fields and final fits
@@ -136,6 +141,8 @@ def propose_events(observed: MixtureObservations, config: Config, event_count: i
                    & (scoring_times <= observed.times[-1] - config.call_duration / 2))
     for _ in range(event_count):
         scoring_power = residual[:, ::2, ::2] / reference[:, None, None]
+        if time_mask is not None:
+            scoring_power = scoring_power * time_mask[None, ::2, None]
         best_score, best_index, best_t, best_f = -math.inf, 0, 0, 0
         for start in range(0, len(candidates), 8):
             stop = min(start + 8, len(candidates))
@@ -199,7 +206,8 @@ def normalized_splauts(generator: SplautGenerator, latents: Tensor, durations: T
 def fit_mixtures(observed: MixtureObservations, config: Config, event_count: int,
                  warmup_steps: int = 250, steps: int = 400, geometry_steps: int = 75,
                  proposal_grid_size: int = 13, fit_seed: int = 101,
-                 bandwidth_hz: float = 500.0, log_every: int = 100) -> MixtureFitResult:
+                 bandwidth_hz: float = 500.0, log_every: int = 100,
+                 time_mask: Tensor | None = None) -> MixtureFitResult:
     """Fit from mixtures alone; no pretrained decoder or source-label argument.
 
     Warmup targets are provisional back-projections of mixtures, not isolated
@@ -208,7 +216,7 @@ def fit_mixtures(observed: MixtureObservations, config: Config, event_count: int
     """
     if min(warmup_steps, steps, geometry_steps) < 0:
         raise ValueError("Iteration counts must be nonnegative")
-    proposals = propose_events(observed, config, event_count, proposal_grid_size, bandwidth_hz)
+    proposals = propose_events(observed, config, event_count, proposal_grid_size, bandwidth_hz, time_mask)
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(fit_seed)
         generator = SplautGenerator(config)
@@ -247,7 +255,8 @@ def fit_mixtures(observed: MixtureObservations, config: Config, event_count: int
                                                                          proposals.relative_times, observed.frequencies))
         prediction = render(splauts, state.positions, state.onsets, state.amplitudes, observed.stations,
                             observed.times, observed.frequencies, config)
-        power, compressed = mixture_losses(prediction, observed.power)
+        power, compressed = mixture_losses(prediction if time_mask is None else prediction[:, time_mask],
+                                           observed.power if time_mask is None else observed.power[:, time_mask])
         objective = 0.5 * (power + compressed) + 0.001 * _band_penalty(splauts, bandwidth_hz)
         if not torch.isfinite(objective):
             raise RuntimeError("Non-finite mixture fitting objective")

@@ -74,7 +74,7 @@ def simulate_scene(events: list[SourceEvent], stations: Tensor, config: Config,
         raise ValueError("Events must lie within the observation area")
     distances = torch.cdist(stations, positions)
     delays = distances / config.sound_speed
-    gains = (distances + config.distance_offset).pow(-2)
+    gains = (distances + config.distance_offset).pow(-config.power_spreading_exponent)
     count = round(config.scene_duration * config.sample_rate)
     waveforms = torch.zeros(len(stations), count, dtype=stations.dtype)
     source_waves, source_powers, source_times = [], [], []

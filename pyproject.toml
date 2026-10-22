@@ -10,6 +10,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["torch>=2.2", "numpy>=1.26", "matplotlib>=3.8"]
 
+[project.optional-dependencies]
+real = ["scipy>=1.11", "soundfile>=0.12"]
+
 [project.scripts]
 splauts = "splauts.__main__:main"
 

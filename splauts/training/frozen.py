@@ -65,7 +65,7 @@ def _match_template(observed: MixtureObservations, residual: Tensor, bank_fields
     yy, xx = torch.meshgrid(axis, axis, indexing="ij")
     candidates = torch.stack((xx.flatten(), yy.flatten()), -1)
     distances = torch.cdist(candidates, observed.stations)
-    gains = (distances + config.distance_offset).pow(-2)
+    gains = (distances + config.distance_offset).pow(-config.power_spreading_exponent)
     delays = distances / config.sound_speed
     dt = float(observed.times[1] - observed.times[0])
     padded = F.pad(normalized, (0, length-1))

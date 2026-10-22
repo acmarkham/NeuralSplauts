@@ -22,7 +22,7 @@ def render(splauts: Splauts, positions: Tensor, onsets: Tensor, amplitudes: Tens
                                 / splauts.time_width[None, :, None, :])
     spectral = gaussian_kernel((frequencies[None, :, None] - splauts.frequency[:, None, :])
                                 / splauts.frequency_width[:, None, :])
-    gains = amplitudes[None, :] / (distances + config.distance_offset).square()
+    gains = amplitudes[None, :] / (distances + config.distance_offset).pow(config.power_spreading_exponent)
     weighted = temporal * splauts.weight[None, :, None, :] * gains[:, :, None, None]
     if config.absorption_db_per_km:
         emitted = torch.einsum("mktn,kfn->mktf", weighted, spectral)

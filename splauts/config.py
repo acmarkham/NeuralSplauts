@@ -28,9 +28,12 @@ class Config:
     absorption_db_per_km: float = 0.0  # Loss at 1 kHz; zero preserves legacy propagation.
     absorption_power: float = 2.0
     absorption_distance_bins: int = 8  # Proposal search only; refinement uses continuous distances.
+    power_spreading_exponent: float = 2.0  # Received power ~ (distance + offset)**(-p).
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "call_families", tuple(self.call_families))
+        if not math.isfinite(self.power_spreading_exponent) or self.power_spreading_exponent <= 0:
+            raise ValueError("Power spreading exponent must be finite and positive")
         if self.sample_rate <= 0 or self.n_fft < 4 or self.hop_length <= 0:
             raise ValueError("Invalid STFT configuration")
         if self.hop_length > self.n_fft:
